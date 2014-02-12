@@ -19,5 +19,5 @@ function [PHI] = guassianDesignMatrix(X,numBasis,variance)
     for kIndex = 1:numBasis;
         PHI(:,kIndex) = sum((X-M(kIndex)).^2,2)./(2*variance);
     end
-    PHI = exp(PHI);
+    PHI = exp(-PHI);
 end
