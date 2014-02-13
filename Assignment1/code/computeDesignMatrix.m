@@ -1,18 +1,20 @@
-function [PHI] = computeDesignMatrix(X,modelType,numBasis,variance)
+function [PHI,M] = computeDesignMatrix(X,modelType,numBasis,variance)
     switch(modelType)
         case 'Polynomial'
             PHI = polynomialDesignMatrix(X,numBasis);
+            M=0;
         case 'Guassian'
-            PHI = guassianDesignMatrix(X,numBasis,variance);
+            [PHI,M] = guassianDesignMatrix(X,numBasis,variance);
         otherwise
             PHI = X;
+            M=0;
     end   
 end
 
 function [PHI] = polynomialDesignMatrix(X,numBasis)
     PHI = bsxfun(@power,X,(0:numBasis-1));
 end
-function [PHI] = guassianDesignMatrix(X,numBasis,variance)
+function [PHI,M] = guassianDesignMatrix(X,numBasis,variance)
     numExamples = size(X,1);
     [~,M]  = kmeans(X,numBasis);
     PHI = zeros(numExamples, numBasis);
