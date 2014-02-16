@@ -26,7 +26,7 @@ function [] = plot_3(N,B,L,dataset,modeltype,variance)
         basis = B(i);
         
 %         if (strcmp(modeltype,'Gaussian') == 0)
-            [M,~] = computeKMeans(trainX,B(i));
+            [M,~] = computeClusterMeans(trainX,basis);
 %         end
         trainPhi = computeDesignMatrix(trainX,modeltype,basis,variance,M);
         testPhi = computeDesignMatrix(testX,modeltype,basis,variance,M);

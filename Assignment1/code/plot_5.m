@@ -15,7 +15,7 @@ function [] =plot_5(data,basisType,basis,lambda,variance)
     [valX,valT] = importd(data,'val');
     [trainX,testX,valX]=normalize(trainX,testX,valX);
     
-    [M,~] = computeKMeans(trainX,basis);
+    [M,~] = computeClusterMeans(trainX,basis);
     trainXPhi = computeDesignMatrix(trainX,basisType,basis,variance,M);
     testXPhi = computeDesignMatrix(testX,basisType,basis,variance,M);
     valXPhi = computeDesignMatrix(valX,basisType,basis,variance,M);

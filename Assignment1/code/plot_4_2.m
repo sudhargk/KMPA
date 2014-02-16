@@ -14,7 +14,7 @@ function [] =plot_4_2(basis,lambda,variance)
     
     [trainX,testX,valX] = normalize(trainX,testX,valX);
     
-    [M,~] = computeKMeans(trainX, basis);
+    [M,~] = computeClusterMeans(trainX, basis);
     trainXPhi = computeDesignMatrix(trainX,'Gaussian',basis,variance,M);
     testXPhi = computeDesignMatrix(testX,'Gaussian',basis,variance,M);
     valXPhi = computeDesignMatrix(valX,'Gaussian',basis,variance,M);
