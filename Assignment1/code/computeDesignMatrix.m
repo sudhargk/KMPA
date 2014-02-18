@@ -18,7 +18,9 @@ function [PHI] = guassianPhi(X,numBasis,variance,M)
     numExamples = size(X,1);
     PHI = zeros(numExamples, numBasis);
     for kIndex = 2:numBasis;
-        PHI(:,kIndex) = sum((X-M(kIndex-1)).^2,2)./(2*variance);
+        diff = bsxfun(@minus,X,M(kIndex-1,:));
+         PHI(:,kIndex) = sum(diff.^2,2)./(2*variance);
+    %PHI(:,kIndex) = (X-M(kIndex-1))*variance*(X-M(kIndex-1))'/2;
     end
     PHI = exp(-PHI); % This automatically fills first column with ones
 end

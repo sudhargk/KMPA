@@ -22,10 +22,16 @@ function [] =plot_5(data,basisType,basis,lambda,variance)
     
     W = train(trainXPhi,trainT,lambda);
     hold on;
-    scatter(trainT,trainXPhi*W,'ro');
-    scatter(testT,testXPhi*W,'g+');
-    scatter(valT,valXPhi*W,'b*');
+    step = 1;
+%     ezplot('x');
+    scatter(trainT(1:step:end),trainXPhi(1:step:end,:)*W,'ro');
+    scatter(testT(1:step:end),testXPhi(1:step:end,:)*W,'g+');
+    scatter(valT(1:step:end),valXPhi(1:step:end,:)*W,'b*');
+    
     legend('train','test','validation','Location', 'NW');
+    xlabel('Target Output');
+    ylabel('Model Output');
+    title(['Target Output vs Model Output - ' data])
 %     T = [trainT;testT;valT];
 %     axis([min(T) max(T) min(T) max(T)]);
     axis equal;

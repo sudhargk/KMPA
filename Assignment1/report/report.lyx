@@ -82,40 +82,133 @@ Methodology
 \end_layout
 
 \begin_layout Subsection
-Overview of Implementation
+Salient Features
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Generating Univariate Dataset :
+\series default
+ We are genearating the given function with a guassian random noise of standard
+ deviation 0.3.
+ Method involves generating the dataset for training, testing and validation
+ initially and saving it in a file.
+ While building multiple training model we are sampling out different datasets
+ from the large training dataset we built beforehand.
+ We generated 10k,1k,1k samples for training,testing and validation respectively.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Computing Variance for : 
+\series default
+Instead of setting the variance parameter empirically we tried to estimate
+ by taking average of all the variance in each cluster and then computed
+ the trace of the matrix.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Normalization of Dataset : 
+\series default
+We performed normalization as we observed too much varinace in the range
+ of values the diffeferent fields of the dataset were taking which made
+ the given matrix badly conditioned.
+\end_layout
+
+\begin_layout Subsection
+Plots
+\end_layout
+
+\begin_layout Subsubsection
+Plot 1a : Comparison of Plot of Aproximated Function vs Model output for
+ Different Complexity and Regularization for Dataset 1
 \end_layout
 
 \begin_layout Standard
-The following list gives an overview of the various functions that were
- written as part of the implementation in MATLAB along with a brief explanation
- of their purpose.
- Wherever required, mention has been made of any salient features.
- An effort has been made to make the program computationally inexpensive
- so that a large number of train-test trials could be conducted.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Plot for N=9
 \end_layout
 
-\begin_layout Subsubsection
-ComputeDesignMatrix(datasetName,modelType,numBasis,variance,mean)
+\end_inset
+
+
 \end_layout
 
-\begin_layout Subsubsection
-Plot_1(numDatasets,numSamples,basisSet,lambdaSet)
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/Plot1(N=9).jpg
+	scale 45
+	groupId plot1
+
+\end_inset
+
+
 \end_layout
 
-\begin_layout Subsubsection
-Plot_2(numDatasets,numSamples,basisSet,lambdaSet)
+\end_inset
+
+
 \end_layout
 
-\begin_layout Subsubsection
-Plot_3(numSamples,basisSet,lambdaSet,dataset,modeltype,variance)
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Plot for N=20
 \end_layout
 
-\begin_layout Subsubsection
-Plot_4(datasetName,basisType,basisSet,lambdaSet,variance)
+\end_inset
+
+
 \end_layout
 
-\begin_layout Subsubsection
-Plot_5(datasetName,basisType,basisSet,lambdaSet,variance)
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/Plot1(N=20).jpg
+	scale 45
+	groupId plot1
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -125,13 +218,36 @@ Plot_5(datasetName,basisType,basisSet,lambdaSet,variance)
 
 \end_layout
 
-\begin_layout Subsection
-Plots
+\begin_layout Paragraph
+Inference
+\end_layout
+
+\begin_layout Itemize
+We observe that as the number of basis is increased the fit of the curve
+ improves but after certain level it curve is getting highly tuned to the
+ random noise.
+\end_layout
+
+\begin_layout Itemize
+Overfitting can be alleviated if the number of training examples is increased.
+\end_layout
+
+\begin_layout Itemize
+Ridge regression also helps to overcome the overfitting if the number of
+ data points available is low.
+ It can be observed that the regularization parameter controls the effective
+ model complexity from the above figure.
+\end_layout
+
+\begin_layout Itemize
+As regularization parameter is varied, the fit of the curve improves till
+ the regularization term becomes dominating factor resulting in underfitting
+ of the data.
 \end_layout
 
 \begin_layout Subsubsection
-Plot 1 : Comparison Plot of Bias and Variance for Dataset 1 for Different
- Complexity and Regularization Parameter
+Plot 1b : Comparison Plot of Bias and Variance for multiple training sets
+ for Different Complexity and Regularization Parameter values
 \end_layout
 
 \begin_layout Standard
@@ -144,7 +260,11 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Lower Complex Models
+Varying ln(
+\begin_inset Formula $\lambda$
+\end_inset
+
+) keeping basis dimension fixed
 \end_layout
 
 \end_inset
@@ -153,6 +273,8 @@ Lower Complex Models
 \end_layout
 
 \begin_layout Plain Layout
+\noindent
+\align center
 \begin_inset Float figure
 wide false
 sideways false
@@ -172,8 +294,9 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figures/Plot1(B=4)a.jpg
-	scale 40
+	filename figures/Plot1(B=9)ab.jpg
+	scale 35
+	groupId plot1_2
 
 \end_inset
 
@@ -186,6 +309,8 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
+\noindent
+\align center
 \begin_inset Float figure
 wide false
 sideways false
@@ -205,8 +330,45 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figures/Plot1(B=4)b.jpg
-	scale 40
+	filename figures/Plot1(B=9)abc.jpg
+	scale 35
+	groupId plot1_2
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/Plot1(B=9)b.jpg
+	scale 35
+	groupId plot1_2
 
 \end_inset
 
@@ -233,7 +395,11 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Higher Complex Models
+Varying basis keeping ln(
+\begin_inset Formula $\lambda$
+\end_inset
+
+) fixed
 \end_layout
 
 \end_inset
@@ -242,6 +408,8 @@ Higher Complex Models
 \end_layout
 
 \begin_layout Plain Layout
+\noindent
+\align center
 \begin_inset Float figure
 wide false
 sideways false
@@ -261,8 +429,9 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figures/Plot1(B=25)a.jpg
-	scale 40
+	filename figures/Plot1(B=4)L.jpg
+	scale 35
+	groupId plot1_2
 
 \end_inset
 
@@ -275,6 +444,8 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
+\noindent
+\align center
 \begin_inset Float figure
 wide false
 sideways false
@@ -294,8 +465,9 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figures/Plot1(B=25)b.jpg
-	scale 40
+	filename figures/Plot1(B=15)L.jpg
+	scale 35
+	groupId plot1_2
 
 \end_inset
 
@@ -310,10 +482,292 @@ status collapsed
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Inference
+\end_layout
+
+\begin_layout Itemize
+The regularization parameter is a tool to control model complexity.
+ However, when the model itself is very simple (very few basis functions)
+ the effect of the regularization parameter is negligible.
+ This is evident from 
+\end_layout
+
+\begin_layout Itemize
+Keeping 
+\begin_inset Formula $ln(\lambda)$
+\end_inset
+
+ fixed, as number of basis is increased the variance within the approximated
+ functions grows and the bias reduces.
+\end_layout
+
+\begin_layout Itemize
+Keeping the number of basis functions constant, as we vary 
+\begin_inset Formula $ln(\lambda)$
+\end_inset
+
+ the variance decreases while the bias steadily increases.
+\end_layout
+
+\begin_layout Itemize
+There is a trade-off between the bias and the variance as the effective
+ model complexity varies.
 \end_layout
 
 \begin_layout Subsubsection
-Plot 2: 
+Plot 2: Plot of the squared bias, variance, average loss and the error on
+ validation data with varying effective model complexity
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Varying ln(
+\begin_inset Formula $\lambda$
+\end_inset
+
+) keeping basis dimension fixed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/Plot1(B=9)ab.jpg
+	scale 35
+	groupId plot1_2
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/Plot1(B=9)abc.jpg
+	scale 35
+	groupId plot1_2
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/Plot1(B=9)b.jpg
+	scale 35
+	groupId plot1_2
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Varying basis keeping ln(
+\begin_inset Formula $\lambda$
+\end_inset
+
+) fixed
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/Plot1(B=4)L.jpg
+	scale 35
+	groupId plot1_2
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/Plot1(B=15)L.jpg
+	scale 35
+	groupId plot1_2
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -321,7 +775,150 @@ Plot 3 :
 \end_layout
 
 \begin_layout Subsubsection
-Plot 4 : 
+Plot 4 : Plot of model and target outputs for the training, validation and
+ test data
+\end_layout
+
+\begin_layout Paragraph
+Bivariate data
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Model Output vs Target Output
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/Plot4(B=10).jpg
+	scale 35
+	groupId plot4
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/Plot4(B=10)Test.jpg
+	scale 35
+	groupId plot4
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/Plot4(B=10)val.jpg
+	scale 35
+	groupId plot4
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection

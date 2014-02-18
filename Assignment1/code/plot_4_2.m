@@ -27,28 +27,31 @@ function [] =plot_4_2(basis,lambda,variance)
     plotXPhi = computeDesignMatrix([X1(:) X2(:)],'Gaussian',basis,variance,M);
     Y = reshape(plotXPhi*W, numPoints, numPoints);
     
-    generatePlot(trainX,trainXPhi*W,trainT,X1,X2,Y,'train');
-    generatePlot(testX,testXPhi*W,testT,X1,X2,Y,'test');
-    generatePlot(valX,valXPhi*W,valT,X1,X2,Y,'validation');
+    set(gcf, 'WindowStyle', 'docked');
+    figure();
+    hold on;
     
+    generatePlot(trainX,trainXPhi*W,trainT,X1,X2,Y,'train','b+');
+    generatePlot(testX,testXPhi*W,testT,X1,X2,Y,'test','m+');
+    generatePlot(valX,valXPhi*W,valT,X1,X2,Y,'validation','y+');
+    hold off;
 end
 
-function [] = generatePlot(input, output, target, modelX1, modelX2, modelY, datatype)
-    figure();
-    set(gcf, 'WindowStyle', 'docked');
-    
-    hold on;
-    surf(modelX1, modelX2, modelY);
+function [] = generatePlot(input, output, target, modelX1, modelX2, modelY, datatype, color)
+   
+    surf(modelX1, modelX2, modelY, 'FaceColor', [0.5 0.4 0.4]);
+%     surf(modelX1, modelX2, modelY);
     X1 = input(:,1);
     X2 = input(:,2);
     Y = output(:,1);
     T = target(:,1);
-    plot3(X1,X2,T,'g+',X1,X2,Y,'ro');
+%     plot3(X1,X2,T,color,X1,X2,Y,'ro');
+    plot3(X1,X2,T,color);
     title(['Plot of Target output and Model output on ' datatype ' data for bivariate dataset']);
-    legend('Approximated function','Target Output','Model Output');
+    legend('Approximated function','Target Output');
     xlabel('Dimension 1');
     ylabel('Dimension 2');
     zlabel('Output');
     view([-22 23]);
-    hold off;
+    
 end
