@@ -21,15 +21,16 @@ function [] =plot_5(data,basisType,basis,lambda,variance)
     valXPhi = computeDesignMatrix(valX,basisType,basis,variance,M);
     
     W = train(trainXPhi,trainT,lambda);
+    figure,
+    set(gcf, 'WindowStyle', 'docked');
     hold on;
     scatter(trainT,trainXPhi*W,'ro');
     scatter(testT,testXPhi*W,'g+');
     scatter(valT,valXPhi*W,'b*');
     legend('train','test','validation','Location', 'NW');
-%     T = [trainT;testT;valT];
-%     axis([min(T) max(T) min(T) max(T)]);
-    axis equal;
-    
+    T = [trainT;testT;valT];
+    axis([min(T) max(T) min(T) max(T)]);
+    axis equal; 
     grid on;
     hold off; 
 end

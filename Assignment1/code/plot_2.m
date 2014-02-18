@@ -31,14 +31,21 @@ function [] = plot_2(D,N,B,L)
         for j = 1:length(L)
             
             lambda = L(j);
-            idx = randperm(size(trainX,1),N*D);
-            newX = reshape(trainX(idx),[N D]);
-            newT = reshape(trainT(idx), [N D]);
-            
+%             idx = randperm(size(trainX,1),N*D);
+%             newX = reshape(trainX(idx),[N D]);
+%             newT = reshape(trainT(idx), [N D]);
+%             
+            display(log(lambda));
             W = zeros(basis,D);
             for k = 1:D
-                xPhi = computeDesignMatrix(newX(:,k),'Polynomial',basis);
-                W(:,k) = train(xPhi,newT(:,k),lambda);
+                idx = randperm(size(trainX,1),N);
+                newX = trainX(idx);
+                newT = trainT(idx);
+                xPhi = computeDesignMatrix(newX,'Polynomial',basis);
+                W(:,k) = train(xPhi,newT,lambda);
+            
+%                 xPhi = computeDesignMatrix(newX(:,k),'Polynomial',basis);
+%                 W(:,k) = train(xPhi,newT(:,k),lambda);
             end
             
             zY = zPhi*W;            
@@ -67,47 +74,50 @@ function [] = plot_2(D,N,B,L)
     % Plotting
     
     % Given lambda, plot vs number of basis functions
-    figure(1);
-    set(1, 'WindowStyle', 'docked');
-    numPlots = 4;
-    [r, c] = configSubplots(numPlots);
-    lIdx = round(linspace(1,length(L),numPlots));
-    for i = 1:numPlots
-        subplot(r, c, i);
-        plot(B', sqBias(:,lIdx(i)), 'b',...
-             B', variance(:,lIdx(i)), 'r',...
-             B', avgLoss(:,lIdx(i)), 'm',...
-             B', errVal(:,lIdx(i)), 'k');
-        text(0.4, -4, ['ln(\lambda) = ' num2str( log( L(lIdx(i)) ) ) ]);
-        title({'Squared bias, variance, average loss & error on'
-            'validation data as functions of number of basis functions'});
-        ylabel('Function values');
-        xlabel('Number of basis functions');
-        legend('(Bias)^2', 'Variance', 'Avg loss', 'Validation error'),
-        legend('boxon');
+   if (length(B) > 1) 
+       figure(1);
+       set(1, 'WindowStyle', 'docked');
+       numPlots = 4;
+       [r, c] = configSubplots(numPlots);
+       lIdx = round(linspace(1,length(L),numPlots));
+       for i = 1:numPlots
+           subplot(r, c, i);
+           plot(B', sqBias(:,lIdx(i)), 'b',...
+               B', variance(:,lIdx(i)), 'r',...
+               B', avgLoss(:,lIdx(i)), 'm',...
+               B', errVal(:,lIdx(i)), 'k');
+           title({'Squared bias, variance, average loss & error on'
+               'validation data as functions of number of basis functions'
+               ['ln(\lambda) = ' num2str( log( L(lIdx(i)) ) ) ]});
+           ylabel('Function values');
+           xlabel('Number of basis functions');
+           legend('(Bias)^2', 'Variance', 'Avg loss', 'Validation error'),
+           legend('boxon');
+       end
     end
             
     % Given number of basis functions, plot vs lambda
-    figure(2);
-    set(2, 'WindowStyle', 'docked');
-    numPlots = 4;
-    [r, c] = configSubplots(numPlots);
-    bIdx = round(linspace(1,length(B),numPlots));
-    for i = 1:numPlots
-        subplot(r, c, i);
-        plot(log(L), sqBias(bIdx(i),:), 'b',...
-             log(L), variance(bIdx(i),:), 'r',...
-             log(L), avgLoss(bIdx(i),:), 'm',...
-             log(L), errVal(bIdx(i),:), 'k');
-        text(0.4, -4, ['Bases = ' num2str( B(bIdx(i)) ) ]);
-        title({'Squared bias, variance, average loss & error on validation'
-            'data as functions of the regularization parameter \lambda'});
-        ylabel('Function values');
-        xlabel('ln(\lambda)');
-        legend('(Bias)^2', 'Variance', 'Avg loss', 'Validation error'),
-        legend('boxon');
+    if (length(L) > 1)
+        figure(2);
+        set(2, 'WindowStyle', 'docked');
+        numPlots = 4;
+        [r, c] = configSubplots(numPlots);
+        bIdx = round(linspace(1,length(B),numPlots));
+        for i = 1:numPlots
+            subplot(r, c, i);
+            plot(log(L), sqBias(bIdx(i),:), 'b',...
+                log(L), variance(bIdx(i),:), 'r',...
+                log(L), avgLoss(bIdx(i),:), 'm',...
+                log(L), errVal(bIdx(i),:), 'k');
+            title({'Squared bias, variance, average loss & error on validation'
+                'data as functions of the regularization parameter \lambda'
+                ['Bases = ' num2str( B(bIdx(i)) ) ]});
+            ylabel('Function values');
+            xlabel('ln(\lambda)');
+            legend('(Bias)^2', 'Variance', 'Avg loss', 'Validation error'),
+            legend('boxon');
+        end
     end
-    
 end
 
 function [r,c] = configSubplots( numPlots )

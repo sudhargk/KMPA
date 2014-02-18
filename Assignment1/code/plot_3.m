@@ -7,8 +7,8 @@
 % dataset : type of dataset - univariate etc.
 % Remarks :: Plotting RMS error rather than MSE
 % Eg.
-%       plot_3(9,[4],exp([-30:0.1:-6]),'univariate','Polynomial',0.3)
-function [] = plot_3(N,B,L,dataset,modeltype,variance)
+%        plot_3(9,[7],exp([-25:0.1:5]),'univariate','Polynomial',0.3)
+function [] = plot_3(D,N,B,L,dataset,modeltype,variance)
     
     [trainX,trainT] = importd(dataset,'train');
     [valX,valT] = importd(dataset,'val');
@@ -18,10 +18,10 @@ function [] = plot_3(N,B,L,dataset,modeltype,variance)
     valErr = zeros(length(B),length(L));
     testErr = zeros(length(B),length(L));
     
-    idx = randperm( size(trainX,1), N);
-    trainX = trainX(idx,:);
-    trainT = trainT(idx);
-    
+%     idx = randperm( size(trainX,1), N);
+%     trainX = trainX(idx,:);
+%     trainT = trainT(idx);
+%     
     for i = 1:length(B)
         basis = B(i);
         
@@ -35,20 +35,39 @@ function [] = plot_3(N,B,L,dataset,modeltype,variance)
         for j = 1:length(L)
             
             lambda = L(j);
-            W = train(trainPhi,trainT,lambda);
+            
+%             idx = randperm(size(trainX,1),N*D);
+%             newX = reshape(trainX(idx),[N D]);
+%             newT = reshape(trainT(idx), [N D]);
+            
+            W = zeros(basis,D);
+            for k = 1:D
+                idx = randperm(size(trainX,1),N);
+                newX = trainX(idx,:);
+                newT = trainT(idx);
+           
+%                 xPhi = computeDesignMatrix(newX(:,k),'Polynomial',basis);
+%                 W(:,k) = train(xPhi,newT(:,k),lambda);
+                xPhi = computeDesignMatrix(newX,'Polynomial',basis);
+                W(:,k) = train(xPhi,newT,lambda);
+            end
+            
+%             W = train(trainPhi,trainT,lambda);
+            display(log(lambda));
+%             display(W)
             
             trainY = trainPhi*W;
-            deltaE = (trainT - trainY);
+            deltaE = bsxfun(@minus, trainT, trainY);
             deltaEsq = deltaE .* deltaE;
             trainErr(i,j) = sqrt(mean(deltaEsq(:)));
             
             valY = valPhi*W;
-            deltaE = (valT - valY);
+            deltaE = bsxfun(@minus, valT, valY);
             deltaEsq = deltaE .* deltaE;
             valErr(i,j) = sqrt(mean(deltaEsq(:)));
             
             testY = testPhi*W;
-            deltaE = (testT - testY);
+            deltaE = bsxfun(@minus, testT, testY);
             deltaEsq = deltaE .* deltaE;
             testErr(i,j) = sqrt(mean(deltaEsq(:)));
             
