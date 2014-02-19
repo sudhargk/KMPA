@@ -1130,7 +1130,7 @@ Plot 5 : Scatter plot of target output vs model output for training, validation
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Caption
@@ -1149,7 +1149,6 @@ status open
 \align center
 \begin_inset Graphics
 	filename figures/Plot5a.jpg
-	scale 35
 
 \end_inset
 

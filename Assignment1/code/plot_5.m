@@ -22,12 +22,12 @@ function [] =plot_5(data,basisType,basis,lambda,variance)
     
     W = train(trainXPhi,trainT,lambda);
     hold on;
-    step = 1;
+    step = 10;
 %     ezplot('x');
     scatter(trainT(1:step:end),trainXPhi(1:step:end,:)*W,'ro');
     scatter(testT(1:step:end),testXPhi(1:step:end,:)*W,'g+');
     scatter(valT(1:step:end),valXPhi(1:step:end,:)*W,'b*');
-    
+    plot(trainT,trainT,'k.');
     legend('train','test','validation','Location', 'NW');
     xlabel('Target Output');
     ylabel('Model Output');
