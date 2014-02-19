@@ -10,7 +10,7 @@
 %        plot_3(9,[7],exp([-25:0.1:5]),'univariate','Polynomial',0.3)
 function [] = plot_3(D,N,B,L,dataset,modeltype,variance)
     
-    [trainX,trainT] = importd(dataset,'train');
+    [trainX,trainT] = importd(dataset,'train100');
     [valX,valT] = importd(dataset,'val');
     [testX,testT] = importd(dataset,'test');
     [trainX,testX,valX] = normalize(trainX,testX,valX);    
@@ -21,14 +21,14 @@ function [] = plot_3(D,N,B,L,dataset,modeltype,variance)
 %     idx = randperm( size(trainX,1), N);
 %     trainX = trainX(idx,:);
 %     trainT = trainT(idx);
-%     
+    
     for i = 1:length(B)
         basis = B(i);
         
 %         if (strcmp(modeltype,'Gaussian') == 0)
             [M,~] = computeClusterMeans(trainX,basis);
 %         end
-        trainPhi = computeDesignMatrix(trainX,modeltype,basis,variance,M);
+%         trainPhi = computeDesignMatrix(trainX,modeltype,basis,variance,M);
         testPhi = computeDesignMatrix(testX,modeltype,basis,variance,M);
         valPhi = computeDesignMatrix(valX,modeltype,basis,variance,M);
             
@@ -48,18 +48,23 @@ function [] = plot_3(D,N,B,L,dataset,modeltype,variance)
            
 %                 xPhi = computeDesignMatrix(newX(:,k),'Polynomial',basis);
 %                 W(:,k) = train(xPhi,newT(:,k),lambda);
-                xPhi = computeDesignMatrix(newX,'Polynomial',basis);
-                W(:,k) = train(xPhi,newT,lambda);
+                trainPhi = computeDesignMatrix(newX,modeltype,basis,variance,M);
+                W(:,k) = train(trainPhi,newT,lambda);
+         
+                trainY = trainPhi*W(:,k);
+%                 deltaE = trainT - trainY;
+                deltaE = newT - trainY;
+                deltaEsq = deltaE .* deltaE;
+%                 trainErr(i,j) = trainErr(i,j) + sqrt(mean(deltaEsq(:)));
+                trainErr(i,j) = trainErr(i,j) + mean(deltaEsq(:));
+         
             end
             
 %             W = train(trainPhi,trainT,lambda);
             display(log(lambda));
 %             display(W)
             
-            trainY = trainPhi*W;
-            deltaE = bsxfun(@minus, trainT, trainY);
-            deltaEsq = deltaE .* deltaE;
-            trainErr(i,j) = sqrt(mean(deltaEsq(:)));
+            trainErr(i,j) = sqrt(trainErr(i,j)/D);
             
             valY = valPhi*W;
             deltaE = bsxfun(@minus, valT, valY);
