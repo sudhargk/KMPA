@@ -3,5 +3,5 @@ function [M, V] = computeClusterMeans(X,numBasis)
 %     n = histc(idx, unique(idx)); % counts number of points in each cluster
 %     sigma = dsum(:) ./ n(:);
 %     V = mean(sigma);
-        V = trace(cov(X)) / size(X,2); 
+        V = trace(cov(X)); 
 end

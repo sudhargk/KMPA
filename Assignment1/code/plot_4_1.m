@@ -21,17 +21,18 @@ function [] =plot_4_1(basis,lambda)
     testXPhi = computeDesignMatrix(testX,'Polynomial',basis);
     valXPhi = computeDesignMatrix(valX,'Polynomial',basis);
     W = train(trainXPhi,trainT,lambda);
-    
-    generatePlot(trainX,trainXPhi*W,trainT,'train');
-    generatePlot(testX,testXPhi*W,testT,'test');
-    generatePlot(valX,valXPhi*W,valT,'validation');
+    figure();
+    set(gcf, 'WindowStyle', 'docked');
+    hold on;
+    generatePlot(trainX,trainXPhi*W,trainT,'train',1);
+    generatePlot(testX,testXPhi*W,testT,'test',2);
+    generatePlot(valX,valXPhi*W,valT,'validation',3);
+    hold off
     
 end
 
-function [] = generatePlot(input, output, target, dataType)
-    figure();
-    set(gcf, 'WindowStyle', 'docked');
-    
+function [] = generatePlot(input, output, target, dataType, plotNo)
+    subplot(1,3,plotNo);
     X = input(:,1);
     Y = output(:,1);
     T = target(:,1);
@@ -40,6 +41,7 @@ function [] = generatePlot(input, output, target, dataType)
     legend('Target Output','Model Output');
     xlabel('Input');
     ylabel('Output');
-    title(['Plot of Target output and Model output on ' dataType ' data for univariate dataset']);
+    title({'Plot of Target output and Model output on'
+          [dataType ' data for univariate dataset']});
     
 end
