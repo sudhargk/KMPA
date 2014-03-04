@@ -8,6 +8,10 @@
 % Remarks :: Plotting RMS error rather than MSE
 % Eg.
 %        plot_3(9,[7],exp([-25:0.1:5]),'univariate','Polynomial',0.3)
+<<<<<<< HEAD
+=======
+%
+>>>>>>> 77cca7424c1d03cd09657342b67db729b05e9345
 function [] = plot_3(D,N,B,L,dataset,modeltype,variance)
     
     [trainX,trainT] = importd(dataset,'train100');

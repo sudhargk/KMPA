@@ -24,12 +24,24 @@ function [] =plot_5(data,basisType,basis,lambda,variance)
     figure,
     set(gcf, 'WindowStyle', 'docked');
     hold on;
+<<<<<<< HEAD
     step = 4;
     scatter(trainT(1:step:end),trainXPhi(1:step:end,:)*W,'ro');
     scatter(testT(1:step:end),testXPhi(1:step:end,:)*W,'g+');
     scatter(valT(1:step:end),valXPhi(1:step:end,:)*W,'b*');
     plot(trainT, trainT, 'k');
+=======
+    step = 10;
+%     ezplot('x');
+    scatter(trainT(1:step:end),trainXPhi(1:step:end,:)*W,'ro');
+    scatter(testT(1:step:end),testXPhi(1:step:end,:)*W,'g+');
+    scatter(valT(1:step:end),valXPhi(1:step:end,:)*W,'b*');
+    plot(trainT,trainT,'k.');
+>>>>>>> 77cca7424c1d03cd09657342b67db729b05e9345
     legend('train','test','validation','Location', 'NW');
+    xlabel('Target Output');
+    ylabel('Model Output');
+    title(['Target Output vs Model Output - ' data])
 %     T = [trainT;testT;valT];
 %     axis([min(T) max(T) min(T) max(T)]);
     axis square; 
