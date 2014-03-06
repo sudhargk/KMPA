@@ -7,7 +7,7 @@
 % dataset : type of dataset - univariate etc.
 % Remarks :: Plotting RMS error rather than MSE
 % Eg.
-%        plot_3(9,[7],exp([-25:0.1:5]),'univariate','Polynomial',0.3)
+%        plot_3(9,50,[7],exp([-25:0.1:5]),'univariate','Polynomial',0.3)
 %
 function [] = plot_3(D,N,B,L,dataset,modeltype,variance)
     
