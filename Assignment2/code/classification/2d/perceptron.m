@@ -19,7 +19,7 @@ function [] = perceptron(whichDataset, choice, init, avgWts, maxIterations, minD
         minDiff = eps;
     end
     if (~exist('maxIterations', 'var'))
-        maxIterations = 500;
+        maxIterations = 1000;
     end
     if (~exist('choice', 'var'))
         choice = 'mira';
