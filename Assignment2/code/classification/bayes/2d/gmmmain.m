@@ -7,7 +7,7 @@
 %
 function []= gmmmain()
     dataset = 'nonlinearlySeparable';
-    path = [pwd,'\..\..\..\data\' dataset '\data'];
+    path = [pwd,'\..\..\..\..\data\' dataset '\data'];
     load(path);    
     numCluster = [1 1 1];
     [gmmObj] = train(trainset,numCluster);
