@@ -1433,30 +1433,7 @@ For the univariate dataset, polynomial basis functions can be used to obtain
 
 \begin_layout Itemize
 The points of low correlation are located at the edge of the graph.
- This can be attributed to the sparsity of the training data in that region
- and the finiteness of the range (
-\begin_inset Formula $x\in[0,1]$
-\end_inset
-
-) under consideration.
- Therefore, the model finds it difficult to obtain accurate estimates of
- the target value particularly at the edges of the range of values.
- This can also be seen from the earlier plots where the variance in the
- model output is particularly high at the edges of the range (Fig 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Plot12a"
-
-\end_inset
-
- and 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Plot12b"
-
-\end_inset
-
-)
+ The points of low correlation are outliers due to noise in the data.
 \end_layout
 
 <<<<<<< HEAD
@@ -1722,7 +1699,7 @@ Increasing the number of basis functions keeping the number of training
 \begin_inset Newpage clearpage
 \end_inset
 
-
+`
 \end_layout
 
 >>>>>>> 77cca7424c1d03cd09657342b67db729b05e9345
@@ -2228,9 +2205,8 @@ As was evident earlier as well, Gaussian basis functions approximate the
 \end_layout
 
 \begin_layout Itemize
-The reason for degradation of model performance are the same as for the
- univariate case - sparsity of the data at the edges and finite range of
- function to be approximated.
+The reason for degradation of model performance at the edge of the curve
+ is the same as for the univariate case - the points are outliers.
 \end_layout
 
 <<<<<<< HEAD
@@ -2463,7 +2439,7 @@ Inferences
 \end_layout
 
 \begin_layout Itemize
-By Increasing the number of basis functions keeping the number of training
+By increasing the number of basis functions keeping the number of training
  examples, and other parameters constant causes the model to overfit the
  data.
  Since the number of data is very high we observe a gradual increase in
@@ -2471,8 +2447,8 @@ By Increasing the number of basis functions keeping the number of training
 \end_layout
 
 \begin_layout Itemize
-Since the degree polynomial is high we observe very gradual decrease in
- root mean squared error as the regularization parameter is increased.
+Since the number if bases is high we observe very gradual decrease in root
+ mean squared error as the regularization parameter is increased.
 \end_layout
 
 \begin_layout Standard
@@ -2482,7 +2458,7 @@ Since the degree polynomial is high we observe very gradual decrease in
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Plot 5 : Scatter plot of target output vs model output for training, validation
  and test data
 \end_layout
@@ -2554,7 +2530,7 @@ pdf
 
 \end_layout
 
-\begin_layout Paragraph*
+\begin_layout Subparagraph*
 Observations
 \end_layout
 
@@ -2573,7 +2549,7 @@ There are few outlier points which are not properly fit by our regression
  model.
 \end_layout
 
-\begin_layout Paragraph*
+\begin_layout Subparagraph*
 Inferences
 \end_layout
 

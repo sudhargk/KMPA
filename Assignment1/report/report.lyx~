@@ -148,6 +148,13 @@ Use of Root Mean Square Error :
  the same units as the original data.
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Univariate Dataset
 \end_layout
@@ -192,7 +199,7 @@ Plot for N=9
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename figures/Plot1(N=9).jpg
-	scale 45
+	scale 35
 	groupId plot1
 
 \end_inset
@@ -234,7 +241,7 @@ Plot for N=20
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename figures/Plot1(N=20).jpg
-	scale 45
+	scale 35
 	groupId plot1
 
 \end_inset
@@ -247,13 +254,6 @@ Plot for N=20
 
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
 \end_inset
 
 
@@ -343,6 +343,13 @@ The regularization parameter is a tool to control model complexity.
  
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Plot 1b : Comparison Plot of Bias and Variance for multiple training sets
  for Different Complexity and Regularization Parameter values
@@ -382,7 +389,7 @@ Varying ln(
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Caption
@@ -405,7 +412,7 @@ name "fig:Plot12a-1"
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename figures/Plot1(B=9)ab.jpg
-	scale 35
+	scale 30
 	groupId plot1_2
 
 \end_inset
@@ -441,7 +448,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename figures/Plot1(B=9)abc.jpg
-	scale 35
+	scale 30
 	groupId plot1_2
 
 \end_inset
@@ -477,7 +484,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename figures/Plot1(B=9)b.jpg
-	scale 35
+	scale 30
 	groupId plot1_2
 
 \end_inset
@@ -546,7 +553,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename figures/Plot1(B=4)L.jpg
-	scale 35
+	scale 30
 	groupId plot1_2
 
 \end_inset
@@ -582,7 +589,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename figures/Plot1(B=15)L.jpg
-	scale 35
+	scale 30
 	groupId plot1_2
 
 \end_inset
@@ -595,13 +602,6 @@ status collapsed
 
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
 \end_inset
 
 
@@ -696,6 +696,13 @@ reference "fig:Plot12a-1"
  degree 9 polynomial is unable to prevent severe underfitting of the data.
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Plot 2: Plot of the squared bias, variance, average loss and the error on
  validation data with varying effective model complexity
@@ -777,7 +784,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename figures/PLot2BVLEvsBasis.jpg
-	scale 35
+	scale 30
 	groupId plot1_2
 
 \end_inset
@@ -808,7 +815,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename figures/PLot2BVLEvsBasis(ln15).jpg
-	scale 35
+	scale 30
 	groupId plot1_2
 
 \end_inset
@@ -821,13 +828,6 @@ status open
 
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
 \end_inset
 
 
@@ -913,6 +913,13 @@ Similarly if we increase the value of
  increase the bias inherent in the model.
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Plot 3 : Plot of root mean squared error (
 \begin_inset Formula $E_{RMS}$
@@ -938,7 +945,7 @@ status open
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Caption
@@ -946,7 +953,57 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:Plot3bi-2-1"
+name "fig:Plot3uni-1-2"
+
+\end_inset
+
+
+\begin_inset Formula $E_{RMS}$
+\end_inset
+
+ vs 
+\begin_inset Formula $\ln(\lambda)$
+\end_inset
+
+ for number of bases = 50
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/plot3_uni(b=50,N=500)err_vs_b.jpg
+	scale 30
+	groupId plot1_2
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Plot3uni-1-1"
 
 \end_inset
 
@@ -969,53 +1026,7 @@ name "fig:Plot3bi-2-1"
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename figures/plot3_uni(l=-Inf,N=50)err_vs_b.jpg
-	scale 35
-	groupId plot1_2
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Plot3bi-1-2"
-
-\end_inset
-
-
-\begin_inset Formula $E_{RMS}$
-\end_inset
-
- vs for number of bases = 13
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename figures/plot3_uni(b=50,N=500)err_vs_b.jpg
-	scale 35
+	scale 30
 	groupId plot1_2
 
 \end_inset
@@ -1031,6 +1042,76 @@ name "fig:Plot3bi-1-2"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Paragraph*
+Observations
+\end_layout
+
+\begin_layout Itemize
+As we increase the number of basis functions, the error on training data
+ decreases while that on test and validation data increases.
+ The minimum test / validation error occurs with 
+\begin_inset Formula $\approx5$
+\end_inset
+
+ bases.
+\end_layout
+
+\begin_layout Itemize
+The initial training error for the second plot is very small since a large
+ number of basis functions is chosen to describe the trend with 
+\begin_inset Formula $\ln(\lambda)$
+\end_inset
+
+.
+ This results in overfitting.
+ The error then shows an increasing trend.
+\end_layout
+
+\begin_layout Itemize
+The validation error initially decreases gradually till the value of 
+\begin_inset Formula $\ln(\lambda)\approx-8$
+\end_inset
+
+.
+ Beyond this, it sharply increases.
+\end_layout
+
+\begin_layout Itemize
+The number of data points used for the second plot is much higher than the
+ first because we use a larger number of basis functions to get a meaningful
+ plot.
+\end_layout
+
+\begin_layout Paragraph
+Inferences
+\end_layout
+
+\begin_layout Itemize
+The trend of training, test and validation error is as expected with change
+ in the number of bases.
+ The training error keeps declining as the model becomes more tuned to the
+ data while the test and validation error increases after a point.
+\end_layout
+
+\begin_layout Itemize
+For very large values of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+, the error increases since the model complexity effectively becomes very
+ low.
+\end_layout
+
+\begin_layout Itemize
+The validation error displays a minima at 
+\begin_inset Formula $\ln(\lambda)\approx-8$
+\end_inset
+
+.
+ However, the test data at this point is much higher.
+ Hence a lower value of the regularizaton parameter would be a better choice.
 \end_layout
 
 \begin_layout Standard
@@ -1038,14 +1119,6 @@ name "fig:Plot3bi-1-2"
 \end_inset
 
 
-\end_layout
-
-\begin_layout Paragraph*
-Observation
-\end_layout
-
-\begin_layout Paragraph
-Inferences
 \end_layout
 
 \begin_layout Subsection
@@ -1057,7 +1130,7 @@ Plot 4 : Plot of model and target outputs for the training, validation and
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Caption
@@ -1090,13 +1163,6 @@ Number of basis functions = 50,
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
 \begin_layout Paragraph*
 Observation
 \end_layout
@@ -1119,6 +1185,13 @@ Since we have chosen a large number of points for training, we have the
 \begin_layout Itemize
 The high model complexity ensures that even the points at the edges of the
  range are well-explained by the model (which will usually not be the case).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -1149,19 +1222,13 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename figures/Plot5a.jpg
+	scale 35
 
 \end_inset
 
 
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
 \end_inset
 
 
@@ -1208,30 +1275,14 @@ For the univariate dataset, polynomial basis functions can be used to obtain
 
 \begin_layout Itemize
 The points of low correlation are located at the edge of the graph.
- This can be attributed to the sparsity of the training data in that region
- and the finiteness of the range (
-\begin_inset Formula $x\in[0,1]$
+ The points of low correlation are outliers due to noise in the data.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
 \end_inset
 
-) under consideration.
- Therefore, the model finds it difficult to obtain accurate estimates of
- the target value particularly at the edges of the range of values.
- This can also be seen from the earlier plots where the variance in the
- model output is particularly high at the edges of the range (Fig 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Plot12a"
 
-\end_inset
-
- and 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Plot12b"
-
-\end_inset
-
-)
 \end_layout
 
 \begin_layout Section
@@ -1261,58 +1312,6 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Plot3bi-2"
-
-\end_inset
-
-
-\begin_inset Formula $E_{RMS}$
-\end_inset
-
- vs number of bases for 
-\begin_inset Formula $\ln(\lambda)=-5$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Graphics
-	filename figures/plot3_bi(l=-5,var=1)err_vs_b.jpg
-	scale 35
-	groupId plot3
-
-\end_inset
-
 
 \end_layout
 
@@ -1373,13 +1372,58 @@ name "fig:Plot3bi-1"
 
 \end_layout
 
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Plot3bi-2"
+
+\end_inset
+
+
+\begin_inset Formula $E_{RMS}$
+\end_inset
+
+ vs number of bases for 
+\begin_inset Formula $\ln(\lambda)=-5$
 \end_inset
 
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename figures/plot3_bi(l=-5,var=1)err_vs_b.jpg
+	scale 35
+	groupId plot3
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \end_inset
 
 
@@ -1475,6 +1519,13 @@ Increasing the number of basis functions keeping the number of training
  error keep increasing.
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+`
+\end_layout
+
 \begin_layout Subsection
 Plot 4 : Plot of model and target outputs for the training, validation and
  test data
@@ -1484,7 +1535,7 @@ Plot 4 : Plot of model and target outputs for the training, validation and
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Caption
@@ -1651,12 +1702,18 @@ status collapsed
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Plot-sm-var"
+
+\end_inset
+
 Model Output vs Target Output for Very Small Variance
 \end_layout
 
@@ -1707,7 +1764,100 @@ status collapsed
 \end_layout
 
 \begin_layout Standard
-\begin_inset Newpage clearpage
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Plot-sm-var-2"
+
+\end_inset
+
+
+\begin_inset Formula $E_{RMS}$
+\end_inset
+
+ vs Variance
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/plot3var1.jpg
+	scale 35
+	groupId plot4
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename figures/plot3var2.jpg
+	scale 35
+	groupId plot4
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \end_inset
 
 
@@ -1722,7 +1872,26 @@ The target outputs (green) seem to indicate that the underlying function
  to be approximated is a Gaussian with random noise added.
  As such the use of Gaussian radial basis functions seems to give a reasonably
  good fit to the data except under certain parameter configurations (see
- Fig ).
+ Fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Plot-sm-var"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Plot-sm-var-2"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Itemize
+It can also be observed that increasing the variance hardly has any effect
+ on the error once a minimum threshold has been crossed.
 \end_layout
 
 \begin_layout Paragraph*
@@ -1741,13 +1910,25 @@ Since the target values come from a bell-shaped curve over the feature vector
  the empirical variance parameter to get a good enough fit to the data.
  Thus, overfitting to the training examples can in general be avoided relatively
  easily.
- 
 \end_layout
 
 \begin_layout Itemize
-At very low variance, one can observe the different guassians which are
+The simplicity of the model also allows the weight vectors to adjust easily
+ in case the variance is increased.
+ Therefore, increasing the variance does not really change the error much.
+\end_layout
+
+\begin_layout Itemize
+At very low variance, one can observe the different Gaussians which are
  fit to the data points, where centroid corresponds to the means identified
  by the k-means algorithm.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -1782,19 +1963,13 @@ Number of basis functions = 25,
 \align center
 \begin_inset Graphics
 	filename figures/Plot5b.jpg
+	scale 35
 
 \end_inset
 
 
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage clearpage
 \end_inset
 
 
@@ -1834,9 +2009,15 @@ As was evident earlier as well, Gaussian basis functions approximate the
 \end_layout
 
 \begin_layout Itemize
-The reason for degradation of model performance are the same as for the
- univariate case - sparsity of the data at the edges and finite range of
- function to be approximated.
+The reason for degradation of model performance at the edge of the curve
+ is the same as for the univariate case - the points are outliers.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -1969,13 +2150,6 @@ status open
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
 \begin_layout Paragraph
 Observations
 \end_layout
@@ -2036,7 +2210,14 @@ Since the degree polynomial is high we observe very gradual decrease in
  root mean squared error as the regularization parameter is increased.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
 Plot 5 : Scatter plot of target output vs model output for training, validation
  and test data
 \end_layout
@@ -2045,7 +2226,7 @@ Plot 5 : Scatter plot of target output vs model output for training, validation
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Caption
@@ -2068,6 +2249,7 @@ Number of basis functions = 225,
 \align center
 \begin_inset Graphics
 	filename figures/Plot5c.jpg
+	scale 40
 
 \end_inset
 
@@ -2079,14 +2261,7 @@ Number of basis functions = 225,
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Newpage clearpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Paragraph*
+\begin_layout Subparagraph*
 Observations
 \end_layout
 
@@ -2105,45 +2280,13 @@ There are few outlier points which are not properly fit by our regression
  model.
 \end_layout
 
-\begin_layout Paragraph*
+\begin_layout Subparagraph*
 Inferences
 \end_layout
 
 \begin_layout Itemize
 The above results are very similar to those obtained for the univariate
  data case.
-\end_layout
-
-\begin_layout Itemize
-As was evident earlier as well, Gaussian basis functions approximate the
- data very well as the function to be approximated itself seems to be a
- Gaussian.
-\end_layout
-
-\begin_layout Bibliography
-\labelwidthstring References
-\begin_inset CommandInset bibitem
-LatexCommand bibitem
-key "key-1"
-
-\end_inset
-
-Vincent Labatut and Hocine Cherifi,
-\emph on
- Accuracy Measures for the Comparison of Classifiers 
-\emph default
-
-\begin_inset Flex URL
-status collapsed
-
-\begin_layout Plain Layout
-
-http://hal.archives-ouvertes.fr/docs/00/61/13/19/PDF/17_ICIT11_VL.pdf
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Bibliography
@@ -2154,45 +2297,18 @@ key "key-2"
 
 \end_inset
 
-Marina Sokolovaa, Guy Lapalme
+
 \emph on
-, A systematic analysis of performance measures for classiﬁcation task
-\emph default
-s 
-\begin_inset Flex URL
-status collapsed
-
-\begin_layout Plain Layout
-
-http://rali.iro.umontreal.ca/rali/sites/default/files/publis/SokolovaLapalme-JIPM09.
-pdf
-\end_layout
-
+ 
+\begin_inset Quotes eld
 \end_inset
 
-
-\end_layout
-
-\begin_layout Bibliography
-\labelwidthstring References
-\begin_inset CommandInset bibitem
-LatexCommand bibitem
-key "key-1"
-
+Geo-Spotting: Mining Online Location-based Services for Optimal Retail Store
+ Placement
+\begin_inset Quotes erd
 \end_inset
 
-General reference - 
-\begin_inset Flex URL
-status collapsed
-
-\begin_layout Plain Layout
-
-http://en.wikipedia.org
-\end_layout
-
-\end_inset
-
-
+,Dmytro Karamshuk ,IMT Lucca, Italy
 \end_layout
 
 \end_body

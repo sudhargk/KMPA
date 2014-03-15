@@ -7,64 +7,40 @@
 % dataset : type of dataset - univariate etc.
 % Remarks :: Plotting RMS error rather than MSE
 % Eg.
-%        plot_3(9,50,[7],exp([-25:0.1:5]),'univariate','Polynomial',0.3)
+%       plot_1(5,9,[2:8],exp([-Inf]),'univariate')
+%       plot_1(5,9,[2:8],exp([-Inf]),'bivariate')
 %
-function [] = plot_3(D,N,B,L,dataset,modeltype,variance)
-    
+function [] = plot_1(D,N,B,L,dataset)
     [trainX,trainT] = importd(dataset,'train');
     [valX,valT] = importd(dataset,'val');
     [testX,testT] = importd(dataset,'test');
     [trainX,testX,valX] = normalize(trainX,testX,valX);    
     trainErr = zeros(length(B),length(L));
     valErr = zeros(length(B),length(L));
-    testErr = zeros(length(B),length(L));
-    
-%     idx = randperm( size(trainX,1), N);
-%     trainX = trainX(idx,:);
-%     trainT = trainT(idx);
+    testErr = zeros(length(B),length(L));    
     
     for i = 1:length(B)
         basis = B(i);
-        
-%         if (strcmp(modeltype,'Gaussian') == 0)
-            [M,~] = computeClusterMeans(trainX,basis);
-%         end
-%         trainPhi = computeDesignMatrix(trainX,modeltype,basis,variance,M);
-        testPhi = computeDesignMatrix(testX,modeltype,basis,variance,M);
-        valPhi = computeDesignMatrix(valX,modeltype,basis,variance,M);
-            
+        [M,tichonovDist,width] = computeClusterMeans(trainX,basis);
+        testPhi = computeDesignMatrix(testX,'Gaussian',basis,M,width);
+        valPhi = computeDesignMatrix(valX,'Gaussian',basis,M,width);            
         for j = 1:length(L)
-            
             lambda = L(j);
-            
-%             idx = randperm(size(trainX,1),N*D);
-%             newX = reshape(trainX(idx),[N D]);
-%             newT = reshape(trainT(idx), [N D]);
-            
             W = zeros(basis,D);
             for k = 1:D
                 idx = randperm(size(trainX,1),N);
                 newX = trainX(idx,:);
                 newT = trainT(idx);
-           
-%                 xPhi = computeDesignMatrix(newX(:,k),'Polynomial',basis);
-%                 W(:,k) = train(xPhi,newT(:,k),lambda);
-                trainPhi = computeDesignMatrix(newX,modeltype,basis,variance,M);
-                W(:,k) = train(trainPhi,newT,lambda);
+                trainPhi = computeDesignMatrix(newX,'Gaussian',basis,M,width);
+                W(:,k) = train(trainPhi,newT,lambda,tichonovDist);
          
                 trainY = trainPhi*W(:,k);
-%                 deltaE = trainT - trainY;
                 deltaE = newT - trainY;
                 deltaEsq = deltaE .* deltaE;
-%                 trainErr(i,j) = trainErr(i,j) + sqrt(mean(deltaEsq(:)));
                 trainErr(i,j) = trainErr(i,j) + mean(deltaEsq(:));
          
-            end
-            
-%             W = train(trainPhi,trainT,lambda);
+            end            
             display(log(lambda));
-%             display(W)
-            
             trainErr(i,j) = sqrt(trainErr(i,j)/D);
             
             valY = valPhi*W;
@@ -80,9 +56,9 @@ function [] = plot_3(D,N,B,L,dataset,modeltype,variance)
         end
     end
     
-    % Plotting
+% Plotting
     
-    % Given lambda, plot vs number of basis functions
+% Given lambda, plot vs number of basis functions
 %     figure(1);
 %     set(1, 'WindowStyle', 'docked');
 %     numPlots = 4;
