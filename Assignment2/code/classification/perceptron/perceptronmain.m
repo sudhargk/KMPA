@@ -1,7 +1,6 @@
 
 
 
-
 function []=perceptronmain()
     eta=0.5;
     dataset = 'linearlySeparableData';
