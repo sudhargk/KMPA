@@ -1,5 +1,7 @@
 function plotdecisionregions(inputs, targets, outputs, gridX, gridY, gridZ)
-    %PLOTDECISION Decision region plot over a 2D space
+    %PLOTDECISIONREGIONS Decision region plot over a 2D space (Upto 4 classes)
+    %Scatter plot of the data superimposed on the decision regions of
+    %different classess.
     
     clrLite = [1 0.6 0.6 ; 0.6 1 0.6 ; 0.6 0.6 1; 1 0.6 1];
     clrDark = [0.7 0 0 ; 0 0.7 0 ; 0 0 0.7; 0.7 0 0.7];
@@ -8,10 +10,6 @@ function plotdecisionregions(inputs, targets, outputs, gridX, gridY, gridZ)
     [~, gridDC] = max(gridZ, [], 3);
     AC = vec2ind(targets);
     Xl = gridX(:)'; Yl = gridY(:)';
-    
-    %FIGURE 4 - Decision region plot
-    %Scatter plot of the data superimposed on the decision regions of
-    %different classess.
     
     %Background image showing class regions
     hold on

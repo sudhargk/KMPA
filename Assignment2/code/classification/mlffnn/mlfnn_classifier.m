@@ -16,13 +16,13 @@ function mlfnn_classifier()
     numClasses = size(trainT,1);
     
     % Set initialization parameters
-    eta = 0.1;
+    eta = 0.15;
     alpha = 0.9;
     tol = 1e-3;
-    max_epochs = 100000; % set no of epochs to be very large
+    max_epochs = 10000; % set no of epochs to be very large
     global BETA;
     BETA = 1;
-    nodesPerLayer = [numDim 7 numClasses];
+    nodesPerLayer = [numDim 10 numClasses];
     activationFcns = {'tansig', 'logsig'};
     initializationFcn = 'rands';
     
@@ -146,11 +146,6 @@ function mlfnn_classifier()
     % View the Network
     % view(net)
     
-    % PLOTS
-    % Uncomment these lines to enable various plots.
-    %figure, plottrainstate(tr)
-    %figure, ploterrhist(errors)
-    
     D = inputs';
     mn = min(D);
     mx = max(D);
@@ -160,12 +155,22 @@ function mlfnn_classifier()
     gridSout = net([Xl; Yl]);
     gridSout = reshape(gridSout', [n n numClasses]);
     
-    %FIGURES 1,2 & 3 - Confusion matrix, ROC and MSE vs epochs
-    figure, set(gcf, 'WindowStyle', 'docked'), plotconfusion(targets,outputs)
-    figure, set(gcf, 'WindowStyle', 'docked'), plotroc(targets,outputs)
-    figure, set(gcf, 'WindowStyle', 'docked'), plotperform(tr)
-    figure, set(gcf, 'WindowStyle', 'docked'), plotdecisionregions(inputs, targets, outputs, gridX, gridY, gridSout)
-    figure, set(gcf, 'WindowStyle', 'docked'), plotoutputs(gridX, gridY, gridSout)
+    inc = 20;
+    gridXS = gridX(1:inc:end, 1:inc:end);
+    gridYS = gridY(1:inc:end, 1:inc:end);
+    gridSoutS = gridSout(1:inc:end, 1:inc:end,:);
+    
+    % PLOTS
+    % Uncomment these lines to enable various plots.
+    %figure, plottrainstate(tr)
+    %figure, ploterrhist(errors)
+    
+%     figure, set(gcf, 'WindowStyle', 'docked'), plotconfusion(targets,outputs)
+%     figure, set(gcf, 'WindowStyle', 'docked'), plotroc(targets,outputs)
+%     figure, set(gcf, 'WindowStyle', 'docked'), plotperform(tr)
+%     figure, set(gcf, 'WindowStyle', 'docked'), plotdecisionregions(inputs, targets, outputs, gridX, gridY, gridSout)
+%     figure, set(gcf, 'WindowStyle', 'docked'), plotoutputs(gridXS, gridYS, gridSoutS)
+    plothiddenlayeroutputs(net, gridXS, gridYS, 1)
    
 end
 
