@@ -1,7 +1,7 @@
-function mlfnn_classifier()
+function mlfnn_classifier_image()
     
-    dataset = 'nonlinearlySeparable';
-    [trainX, trainT] = importd(dataset, 'train');
+    dataset = 'image';
+    [trainX, trainT, classes] = importd(dataset, 'train');
     [valX, valT] = importd(dataset, 'val');
     [testX, testT] = importd(dataset, 'test');
     inputs = [trainX valX testX];
@@ -19,15 +19,17 @@ function mlfnn_classifier()
     mode = 'batch';
 %     trainingMethod = 'traingdm'; % gradient descent with momentum
     trainingMethod = 'trainscg'; % scaled conjugate gradient
-    eta = 0.2;
-    alpha = 0.92;
+    eta = 0.01;
+    alpha = 0.9;
     gradtol = 0.001;
-    errtol = 0.1;
+    errtol = 0.001;
     max_epochs = 10000; % set no of epochs to be very large
+    val_checks = 50;  % max validation failures
+            %(no of consecutive epochs validation error fails to decrease)
     global BETA;
     BETA = 1;
-    nodesPerLayer = [numDim 10 numClasses];
-    activationFcns = {'tansig', 'logsig'};
+    nodesPerLayer = [numDim 100 30 numClasses];
+    activationFcns = {'tansig', 'tansig', 'logsig'};
     initializationFcn = 'rands';
     
     setdemorandstream(pi); % random seeding for reproducible results
@@ -35,17 +37,27 @@ function mlfnn_classifier()
     %% Should not require too many changes often
     % Create a Pattern Recognition Network
     net = patternnet;
+    net.numInputs = 1;
+    net.numLayers = length(nodesPerLayer)-1; % 1 output layer counted here
     
-    % Choose Input and Output Pre/Post-Processing Functions
-    % For a list of all processing functions type: help nnprocess
-    net.inputs{1}.processFcns = {'removeconstantrows','mapminmax'};
-    net.outputs{2}.processFcns = {'removeconstantrows','mapminmax'};
+    % Configure layer connections
+    net.biasConnect = ones(net.numLayers, 1); % hidden layers and output layer both have bias connections
+    net.inputConnect = eye(net.numLayers, 1); % inputConnect(i,j) is 1 when input j is connected to layer i
+    net.layerConnect = diag(ones(net.numLayers-1,1),-1); % layerConnect(i,j) is 1 when layer j's output is input to layer i
+    net.outputConnect = zeros(1,net.numLayers); net.outputConnect(net.numLayers) = 1;
+    % outputConnect(j) is 1 when layer j gives an output
+    % Note that this implicitly determines numOutputs
     
     % Layer configuration
     for i = 1 : net.numLayers
         net.layers{i}.size = nodesPerLayer(i+1); % set no of hidden layer nodes
         net.layers{i}.transferFcn = activationFcns{i}; % set activation fn for each layer
     end
+    
+    % Choose Input and Output Pre/Post-Processing Functions
+    % For a list of all processing functions type: help nnprocess
+    net.inputs{1}.processFcns = {'removeconstantrows','mapminmax'};
+    net.outputs{2}.processFcns = {'removeconstantrows','mapminmax'};
     
     % Initialization of weights
     net.initFcn = 'initlay';
@@ -98,8 +110,7 @@ function mlfnn_classifier()
             net.trainParam.epochs = max_epochs;
             net.trainParam.time = Inf; % time limit
             net.trainParam.goal = errtol;
-            net.trainParam.max_fail = 6; % max validation failures
-            %(no of consecutive epochs validation error fails to decrease)
+            net.trainParam.max_fail = val_checks;
             net.trainParam.min_grad = gradtol; % norm of error gradient
             
         otherwise
@@ -161,31 +172,13 @@ function mlfnn_classifier()
     % View the Network
     % view(net)
     
-    D = inputs';
-    mn = min(D);
-    mx = max(D);
-    n = 500; % grid size
-    [gridX, gridY] = meshgrid( linspace(mn(1),mx(1),n), linspace(mn(2),mx(2),n) );
-    Xl = gridX(:)'; Yl = gridY(:)';
-    gridSout = net([Xl; Yl]);
-    gridSout = reshape(gridSout', [n n numClasses]);
-    
-    inc = 20;
-    gridXS = gridX(1:inc:end, 1:inc:end);
-    gridYS = gridY(1:inc:end, 1:inc:end);
-    gridSoutS = gridSout(1:inc:end, 1:inc:end,:);
-    
     % PLOTS
     % Uncomment these lines to enable various plots.
     %figure, plottrainstate(tr)
-    %figure, ploterrhist(errors)
     
     figure, set(gcf, 'WindowStyle', 'docked'), plotconfusion(targets,outputs)
     figure, set(gcf, 'WindowStyle', 'docked'), plotroc(targets,outputs)
     figure, set(gcf, 'WindowStyle', 'docked'), plotperform(tr)
-    figure, set(gcf, 'WindowStyle', 'docked'), plotdecisionregions(inputs, targets, outputs, gridX, gridY, gridSout)
-    figure, set(gcf, 'WindowStyle', 'docked'), plotoutputs(gridXS, gridYS, gridSoutS)
-    plothiddenlayeroutputs(net, gridXS, gridYS, 1)
-   
+    
 end
 

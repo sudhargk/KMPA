@@ -1,4 +1,4 @@
-function [X,T] = importd(type, filetype)
+function [X,T,classes] = importd(type, filetype)
     persistent F;
     persistent D;
     if (strcmp(F,type) == 0)
@@ -8,15 +8,15 @@ function [X,T] = importd(type, filetype)
     end
     switch (filetype)
         case 'train'
-            classExamples = cellfun(@length, D.trainset);
+            classExamples = cellfun(@(x)(size(x,1)), D.trainset);
             numClasses = size(D.trainset,1);
             X = cell2mat(D.trainset)';
         case 'test'
-            classExamples = cellfun(@length, D.testset);
+            classExamples = cellfun(@(x)(size(x,1)), D.testset);
             numClasses = size(D.testset,1);
             X = cell2mat(D.testset)';
         case 'val'
-            classExamples = cellfun(@length, D.valset);
+            classExamples = cellfun(@(x)(size(x,1)), D.valset);
             numClasses = size(D.valset,1);
             X = cell2mat(D.valset)';
     end
@@ -29,4 +29,5 @@ function [X,T] = importd(type, filetype)
         T(i,b:e-1) = 1;
         b = e;
     end
+    classes = D.classes;
 end

@@ -1,4 +1,4 @@
-function nnet2Old()
+function nnetOld()
     %Old version -- use mlfnn_classifier() instead
     
     [trainX, trainT] = importd('nonlinearlySeparable', 'train');

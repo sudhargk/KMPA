@@ -4,7 +4,7 @@
 function []=perceptronmain()
     eta=0.5;
     dataset = 'linearlySeparableData';
-    path = [pwd,'\..\..\..\data\' dataset '\data'];
+    path = fullfile(pwd,'..','..','..','data', dataset, 'data');
     load(path);
 %     D1=[ones(size(trainset{1,1},1),1) trainset{1,1}];
 %     D2=[ones(size(trainset{2,1},1),1) trainset{2,1}];
