@@ -34,8 +34,9 @@ function plothiddenlayeroutputs(net, gridX, gridY, layerNo)
     J = size(s,1);
     s = reshape(s', [n1 n2 J]);
     colors = lines();
+    c = gcf;
     for j = 1:J
-        figure(j), set(gcf, 'WindowStyle', 'docked'),
+        figure(c+j), set(gcf, 'WindowStyle', 'docked'),
         xlabel('Dimension 1'), ylabel('Dimension 2'), zlabel('Hidden layer output')
         surf(gridX, gridY, s(:,:,j),'FaceColor',colors(j,:));
         axis tight;
