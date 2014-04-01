@@ -16,7 +16,7 @@ function [] =plot_3(data,basis,lambda)
     [valX,valT] = importd(data,'val');
     [trainX,testX,valX]=normalize(trainX,testX,valX);
     
-    [M,tichonovDist,width] = computeClusterMeans(trainX,basis);
+    [M,tichonovDist,width] = computeClusterMeans(trainX(1:10),basis);
     [trainXPhi] = computeDesignMatrix(trainX,basisType,basis,M,width);
     testXPhi = computeDesignMatrix(testX,basisType,basis,M,width);
     valXPhi = computeDesignMatrix(valX,basisType,basis,M,width);

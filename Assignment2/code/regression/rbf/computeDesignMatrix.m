@@ -16,8 +16,8 @@ end
 % M contains 1 less than numBasis means
 function [PHI] = guassianPhi(X,numBasis,variance,M)
     numExamples = size(X,1);
-    PHI = zeros(numExamples, numBasis);
-    for kIndex = 2:numBasis;
+    PHI = zeros(numExamples, numBasis+1);
+    for kIndex = 2:numBasis+1;
          diff = bsxfun(@minus,X,M(kIndex-1,:));
          PHI(:,kIndex) = sum(diff.^2,2)./(2*variance);
     end
