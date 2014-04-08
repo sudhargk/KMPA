@@ -10,16 +10,20 @@ function plotdecisionregions(inputs, targets, outputs, gridX, gridY, gridZ)
     [~, gridDC] = max(gridZ, [], 3);
     AC = vec2ind(targets);
     Xl = gridX(:)'; Yl = gridY(:)';
+    minimum = min(D);
+    maximum = max(D);
     
     %Background image showing class regions
     hold on
     image(Xl, Yl, gridDC)
     colormap(clrLite);
     %Superimposing data points
-    gscatter(D(:,1), D(:,2), AC', clrDark, '.', 10);
+    gscatter(D(:,1), D(:,2), AC', clrDark, '.', 15);
     bad = (DC ~= AC);
     plot(D(bad,1), D(bad,2), 'yx', 'MarkerSize', 10);
-    axis tight, hold off;
+    hold off;
+    xlim([minimum(1) maximum(1)]);
+    ylim([minimum(2) maximum(2)]);
     title('Decision regions in input space'),
     xlabel('Dimension 1'), ylabel('Dimension 2');
 end

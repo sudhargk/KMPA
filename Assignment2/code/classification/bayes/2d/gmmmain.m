@@ -2,16 +2,16 @@
 
 %%
 %Implementation of bayes classifier using gaussian distribution
-% @dataset = 'overlapping_data','linearlySeparableData','nonlinearlySeparable'
+% @dataset = 'overlapping','linearlySeparable','nonlinearlySeparable'
 % @numCluster  = 1 x C  number of cluster per class
 %
 function []= gmmmain()
-    dataset = 'nonlinearlySeparable';
-    path = [pwd,'\..\..\..\..\data\' dataset '\data'];
+    dataset = 'overlapping';
+    path=fullfile(pwd,'..','..','..','..','data',dataset,'data');
     load(path);    
     numCluster = [1 1 1];
     [gmmObj] = train(trainset,numCluster);
-    [confusion]=testData(testset,gmmObj);       
+    [confusion]=testData(valset,gmmObj);       
     [perClassInfo,overallAcc]=computeMetrics(confusion,numClass);
     format shortg;
     display(confusion);
@@ -92,7 +92,7 @@ function  visualize(testset,gmmObj)
     bad = (DC ~= AC);
     plot(D(bad,1), D(bad,2), 'yx', 'MarkerSize', 10)
     axis([mn(1) mx(1) mn(2) mx(2)]);
-    axis equal
+    axis tight;
     xlabel('Dimension 1'), ylabel('Dimension 2'); 
     hold off   
 end

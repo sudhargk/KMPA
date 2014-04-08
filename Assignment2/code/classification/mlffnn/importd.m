@@ -29,5 +29,7 @@ function [X,T,classes] = importd(type, filetype)
         T(i,b:e-1) = 1;
         b = e;
     end
-    classes = D.classes;
+    if (strcmp(type, 'image')==1)
+        classes = D.classes;
+    end
 end
