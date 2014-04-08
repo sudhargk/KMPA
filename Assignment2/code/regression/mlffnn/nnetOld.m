@@ -1,144 +1,117 @@
-function nnet()
-    [trainX,trainT] = importd('bivariate','train');
-    neuralnet(trainX,trainT);
+function nnet2Old()
+    %Old version -- use mlfnn_classifier() instead
     
-end
-
-function [] = neuralnet (trainX,trainT)
-%     Initializing the parameters
-    eta = 1.0;
+    [trainX, trainT] = importd('nonlinearlySeparable', 'train');
+    [valX, valT] = importd('nonlinearlySeparable', 'val');
+    [testX, testT] = importd('nonlinearlySeparable', 'test');
+    inputs = [trainX valX testX];
+    targets = [trainT valT testT];
+    
+    numDim = size(trainX,1);
+    numClasses = size(trainT,1);
+    
+    eta = 0.05;
     alpha = 0.9;
-    tol = 0.001;
-%     nodesPerLayer = [size(trainX,2) 5 1];
-%     trainX = [0.1 0.1; 0.1 0.95; 0.95 0.1;0.95 0.95];
-%     trainT = [0.1 0.95 0.95 0.1]';
-    nodesPerLayer = [size(trainX,2) 5 1];
-    patternmode(nodesPerLayer,trainX,trainT,eta,alpha,tol,'logistic');
+    tol = 1e-3;
+    global BETA;
+    BETA = 1;
+    nodesPerLayer = [numDim 7 numClasses];
+    activationFcns = {'tansig', 'logsig'};
+    initializationFcn = 'rands';
     
-end
-
-function [error] = patternmode(nodesPerLayer,trainX,trainT,eta,alpha,tol,activationFN)
-%     Initializing the weight parameters
-    [weight,deltaWeight] = initWeight(nodesPerLayer);
-%     Initializing the S parameters
-    sumerror = 2*tol;
-    numSamples = size(trainX,1);
-    trainfunc = str2func(activationFN);
-    trainfuncD = str2func([activationFN 'D']);
-    epoch = 1;
-    while(sumerror > tol)
-        sumerror = 0;
-        for k = 1:numSamples
-           [sactivationOutputs] = forwardPass(nodesPerLayer,trainX(k,:),weight,trainfunc);
-           ERR =  trainT(k) - sactivationOutputs{end};
-           [weight,deltaWeight]=backwardPass(nodesPerLayer,ERR,sactivationOutputs,weight,deltaWeight,trainfuncD,eta,alpha);
-           sumerror = sumerror+sum(ERR.^2);
-        end
-        display(['epoch ' num2str(epoch) ' : ' num2str(sumerror)]);
-        epoch=epoch+1;
-    end
-end
-
-% function [error] = patternmode(nodesPerLayer,trainX,trainT,eta,alpha,tol,activationFN)
-% %     Initializing the weight parameters
-%     [weight,deltaWeight] = initWeight(nodesPerLayer);
-% %     Initializing the S parameters
-%     [activationOutputs] = initActivationOutputs(nodesPerLayer);
-%     sumerror = 2*tol;
-%     numSamples = size(trainX,1);
-%     trainfunc = str2func(activationFN);
-%     trainfuncD = str2func([activationFN 'D']);
-%     epoch = 1;
-%     while(sumerror > tol)
-%         sumerror = 0;
-%         for k = 1:numSamples
-%            activationOutputs{1} = [1 trainX(k,:)];
-%            [activationOutputs,sactivationOutputs] = forwardPass(nodesPerLayer,activationOutputs,weight,trainfunc);
-%            ERR =  trainT(k) -sactivationOutputs{end};
-%            [weight,deltaWeight]=backwardPass(nodesPerLayer,ERR,sactivationOutputs,weight,deltaWeight,trainfuncD,eta,alpha);
-%            sumerror = sumerror+sum(ERR.^2);
-%         end
-%         display(['epoch ' num2str(epoch) ' : ' num2str(sumerror)]);
-%         epoch=epoch+1;
-%     end
-% end
-% function [activationOutputs,sactivationOutputs] = forwardPass(nodesPerLayer,activationOutputs,weight,func)
-%     numLayers = length(nodesPerLayer);
-%     sactivationOutputs  = cell(size(activationOutputs));
-%      sactivationOutputs{1} = activationOutputs{1};
-%     % Forward Pass
-%     for index =2 : numLayers-1
-%         activationOutputs{index} = sactivationOutputs{index-1}*weight{index-1};
-%         sactivationOutputs{index} = [1 func(activationOutputs{index})];
-%     end
-%     activationOutputs{end} = sactivationOutputs{end-1}*weight{end};
-%     sactivationOutputs{end} = func(activationOutputs{end});
-% end
-
-function [sactivationOutputs] = forwardPass(nodesPerLayer,train,weight,func)
-    numLayers = length(nodesPerLayer);
-    sactivationOutputs  = cell(numLayers,1);
-    sactivationOutputs{1} = [1  train];
-    % Forward Pass
-    for index =2 : numLayers-1
-        sactivationOutputs{index} = [1 func(sactivationOutputs{index-1}*weight{index-1})];
-    end
-    sactivationOutputs{end} = func(sactivationOutputs{end-1}*weight{end});
-end
-
-function [weight,deltaOldWeight] = backwardPass(nodesPerLayer,err,sactivationOutputs,weight,deltaOldWeight,trainfuncD,eta,alpha)
-    numWeightComponent = length(nodesPerLayer)-1;
-    gradient = cell(numWeightComponent,1); 
-    gradient{end} = err.*trainfuncD(sactivationOutputs{end});
-    for index = numWeightComponent:-1:2
-        gradient{index-1}=weight{index}*gradient{index}.*trainfuncD(sactivationOutputs{index})';
-    end
-    for index = 1:numWeightComponent-1
-        deltaWeight=sactivationOutputs{index}'*gradient{index}(2:end)';
-        weight{index}=weight{index}+eta*deltaWeight+alpha*deltaOldWeight{index};
-        deltaOldWeight{index} = deltaWeight;
-    end
-    deltaWeight=sactivationOutputs{end-1}'*gradient{end}';
-    weight{end}=weight{end}+eta*deltaWeight+alpha*deltaOldWeight{end};
-    deltaOldWeight{end} = deltaWeight;
-end
-
-
-function [out] = logistic(in)
-        out = 1./(1+exp(-in));
-end
-
-function [out] = hTangent(in)
-        out = tanh(in);
-end
-
-function [out] = hTangentD(in)
-%     out = (1-hTangent(in).*hTangent(in)); 
-    out = (1-in.*in); 
-end
-function [out] = logisticD(in)
-%     out = logistic(in).*(1-logistic(in));
-    out = in.*(1-in);
-end
-
-function [weight,deltaWeight] = initWeight(nodesPerLayer)
-    numWeightComponents = length(nodesPerLayer)-1;
-    weight = cell(numWeightComponents,1);
-    deltaWeight = cell(numWeightComponents,1);
-%     Initializing the weight deltaWeight and deltaOldWeight
-    for index = 1:numWeightComponents
-        weight{index} = 2*rand(nodesPerLayer(index)+1,nodesPerLayer(index+1))-1; 
-        deltaWeight{index} = zeros(nodesPerLayer(index)+1,nodesPerLayer(index+1)); 
-    end
-end
-
-function [activationOutputs] = initActivationOutputs(nodesPerLayer)
-    numActivationComponents = length(nodesPerLayer);
-    activationOutputs = cell(numActivationComponents,1);
-    assert(numActivationComponents>=3);
-    activationOutputs{1} = zeros(1,nodesPerLayer(1));
-    for index = 2:numActivationComponents-1
-       activationOutputs{index} =  zeros(1,nodesPerLayer(index));
-    end
-    activationOutputs{numActivationComponents}=zeros(1,nodesPerLayer(numActivationComponents));
-end
+    % Create a Pattern Recognition Network
+    % hiddenLayerSize = 10;
+    % net = patternnet(hiddenLayerSize);
+    
+    % Setup network architecture
+    
+    % Basic configuration
+    net = patternnet;
+    net.numInputs = 1; % only one set of inputs (this is not input vector dimensionality)
+    net.numLayers = length(nodesPerLayer)-1; % 1 output layer counted here
+    
+    % Configure layer connections
+    net.biasConnect = [1; 1]; % hidden layer and output layer both have bias connections
+    net.inputConnect = [1; 0]; % inputConnect(i,j) is 1 when input j is connected to layer i
+    net.layerConnect = [0 0; 1 0]; % layerConnect(i,j) is 1 when layer j's output is input to layer i
+    net.outputConnect = [0 1]; % outputConnect(j) is 1 when layer j gives an output
+    % Note that this implicitly determines numOutputs
+    net.inputs{1}.exampleInput = trainX; % automatically determines input range, dimensionality etc.
+    net.outputs{2}.exampleOutput = trainT; % automatically determines input range, dimensionality etc.
+    
+    % Choose Input and Output Pre/Post-Processing Functions
+    net.inputs{1}.processFcns = {'removeconstantrows','mapminmax'}; % removeconstant rows removes non-discriminatory features
+    net.outputs{2}.processFcns = {'removeconstantrows','mapminmax'}; % mapminmax does normalization in [-1,1]
+    
+    % Setup Division of Data for Training, Validation, Testing
+    % For a list of all data division functions type: help nndivide
+    net.divideFcn = 'divideind';  % Divide data as per given indices
+    b = 1; e = size(trainX,2);
+    net.divideParam.trainInd = b:e;
+    b = e + 1; e = e + size(valX,2);
+    net.divideParam.valInd = b:e;
+    b = e + 1; e = e + size(testX,2);
+    net.divideParam.testInd = b:e;
+    % net.divideFcn = 'dividerand';  % Divide data randomly
+    % net.divideMode = 'sample';  % Divide up every sample
+    % net.divideParam.trainRatio = 70/100;
+    % net.divideParam.valRatio = 15/100;
+    % net.divideParam.testRatio = 15/100;
+    
+    % For help on training function 'trainscg' type: help trainscg
+    % For a list of all training functions type: help nntrain
+    % net.trainFcn = 'trainscg';  % Scaled conjugate gradient
+    net.trainFcn = 'trainscg';
+    % net.trainParam.lr = eta; % learning rate
+    % net.trainParam.mc = alpha; % momentum factor
+    
+    % termination criteria
+    net.trainParam.epochs = 100000; % set no of epochs to be very large
+    net.trainParam.time = Inf; % time limit
+    net.trainParam.max_fail = 6; % max validation failures
+    %(no of consecutive epochs validation error fails to decrease)
+    net.trainParam.min_grad = tol; % norm
+    
+    % display parameters
+    net.trainParam.show = 10;
+    net.trainParam.showCommandLine = 0;
+    net.trainParam.showWindow = 1;
+    
+    % Choose a Performance Function
+    % For a list of all performance functions type: help nnperformance
+    net.performFcn = 'mse';  % Mean squared error
+    net.performParam.regularization = 0; % Regularization parameter
+    
+    % Choose Plot Functions
+    % For a list of all plot functions type: help nnplot
+    net.plotFcns = {'plotperform','plottrainstate','ploterrhist', ...
+        'plotconfusion', 'plotroc'};
+    
+    % Initialize biases and weights
+    net = init(net);
+    % Train the Network
+    [net,tr] = train(net,inputs,targets);
+    
+    % Test the Network
+    outputs = net(inputs);
+    errors = gsubtract(targets,outputs);
+    performance = perform(net,targets,outputs)
+    
+    % Recalculate Training, Validation and Test Performance
+    trainTargets = targets .* tr.trainMask{1};
+    valTargets = targets  .* tr.valMask{1};
+    testTargets = targets  .* tr.testMask{1};
+    trainPerformance = perform(net,trainTargets,outputs)
+    valPerformance = perform(net,valTargets,outputs)
+    testPerformance = perform(net,testTargets,outputs)
+    
+    % View the Network
+    view(net)
+    
+    % Plots
+    % Uncomment these lines to enable various plots.
+    %figure, plotperform(tr)
+    %figure, plottrainstate(tr)
+    %figure, plotconfusion(targets,outputs)
+    %figure, plotroc(targets,outputs)
+    %figure, ploterrhist(errors)
