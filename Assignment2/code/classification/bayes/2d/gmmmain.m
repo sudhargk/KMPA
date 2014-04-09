@@ -6,20 +6,43 @@
 % @numCluster  = 1 x C  number of cluster per class
 %
 function []= gmmmain()
-    dataset = 'overlapping';
+    dataset = 'nonlinearlySeparable';
     path = fullfile(pwd,'..','..','..','..','data',dataset,'data');
     load(path);    
-    numCluster = [3 3 3];
-    [gmmObj] = train(trainset,numCluster);
-    [confusion]=testData(testset,gmmObj);       
-    [perClassInfo,overallAcc]=computeMetrics(confusion,numClass);
-    format shortg;
-    display(confusion);
-    display(overallAcc);
-    
-    visualize(testset,gmmObj);
+     plotLikelihood(trainset);
+%      numCluster = [1 5 3];
+%    [gmmObj] = train(trainset,numCluster);
+%     [confusion]=testData(testset,gmmObj);       
+%     [perClassInfo,overallAcc]=computeMetrics(confusion,numClass);
+%     format shortg;
+%     display(confusion);
+%     display(overallAcc);
+%     
+%     visualize(testset,gmmObj);
 end
+function plotLikelihood(trainsets)
+    setdemorandstream(pi)
+    maxCluster= 20;
+    numClass = size(trainsets,1);
+    likelihood =zeros(numClass,maxCluster);
+    options = statset('MaxIter',1000);
+    for index = 1 : numClass
+        for cluster = 1: maxCluster
+            gmmObj = gmdistribution.fit(trainsets{index},cluster,'Regularize',0.0001,'CovType','full','Options',options,'Start','randSample');
+            likelihood(index,cluster)=sum(log(pdf(gmmObj,trainsets{index})));
+        end
+    end
+    color = {'r','b','g'};
+    hold on;
+    for index = 1: numClass
+        plot(1:maxCluster,likelihood(index,:),color{index});
+    end
+    labels = strcat({'Class '}, num2str((1:numClass)'));
+    legend(labels);
+    xlabel('# of Clusters'), ylabel('Likelihood');
+    hold off;
 
+end
 function [C]= testData(dataset,gmmObj)
     numClass = size(dataset,1);
     numSample = cellfun(@length,dataset);

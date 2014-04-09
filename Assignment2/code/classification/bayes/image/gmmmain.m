@@ -7,7 +7,7 @@
 %
 function []= gmmmain()
     dataset = 'image';
-        path = fullfile(pwd,'..','..','..','..','data',dataset,'data');
+        path = fullfile(pwd,'..','..','..','..','data',dataset,'CompleteData');
 
     load(path);
     models= [18	12 6 19	10];
@@ -48,7 +48,8 @@ function [C]= testData(dataset,gmmObj,classes)
     targets=full(ind2vec(actualClass));
     outputs = full(ind2vec(decidedClass));
     figure(),plotconfusion(targets,outputs),set(gcf, 'WindowStyle', 'docked');
-    figure(),plotroc(targets,outputs),set(gcf, 'WindowStyle', 'docked');
+    figure(),plotroc(outputs,targets),set(gcf, 'WindowStyle', 'docked');
+    %[tpr,fpr,thresholds] = roc(outputs,targets)
     [~, ~, ph] = legend(gca);legend(ph, classes); 
     
     for i = 1:totalSample
