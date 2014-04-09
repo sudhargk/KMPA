@@ -17,14 +17,14 @@ function mlfnn_classifier_image()
     
     % Set initialization parameters
     mode = 'batch';
-%     trainingMethod = 'traingdm'; % gradient descent with momentum
-    trainingMethod = 'trainscg'; % scaled conjugate gradient
-    eta = 0.01;
-    alpha = 0.9;
+    trainingMethod = 'traingdm'; % gradient descent with momentum
+%     trainingMethod = 'trainscg'; % scaled conjugate gradient
+    eta = 0.3;
+    alpha = 0.92;
     gradtol = 0.001;
-    errtol = 0.001;
-    max_epochs = 10000; % set no of epochs to be very large
-    val_checks = 50;  % max validation failures
+    errtol = 0.055;
+    max_epochs = 100000; % set no of epochs to be very large
+    val_checks = 10000;  % max validation failures
             %(no of consecutive epochs validation error fails to decrease)
     global BETA;
     BETA = 1;
@@ -158,6 +158,7 @@ function mlfnn_classifier_image()
     
     % Test the Network
     outputs = net(inputs);
+    testOut = net(testX);
     errors = gsubtract(targets,outputs);
     performance = perform(net,targets,outputs)
     
@@ -176,9 +177,9 @@ function mlfnn_classifier_image()
     % Uncomment these lines to enable various plots.
     %figure, plottrainstate(tr)
     
-    figure, set(gcf, 'WindowStyle', 'docked'), plotconfusion(targets,outputs)
-    figure, set(gcf, 'WindowStyle', 'docked'), plotroc(targets,outputs)
-    figure, set(gcf, 'WindowStyle', 'docked'), plotperform(tr)
+%     figure, set(gcf, 'WindowStyle', 'docked'), plotconfusion(testT,testOut)
+    figure, set(gcf, 'WindowStyle', 'docked'), plotroc(testT,testOut), [~, ~, ph] = legend(gca); legend(ph,classes);
+%     figure, set(gcf, 'WindowStyle', 'docked'), plotperform(tr)
     
 end
 

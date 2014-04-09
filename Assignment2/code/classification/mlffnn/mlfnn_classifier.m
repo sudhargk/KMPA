@@ -7,25 +7,19 @@ function mlfnn_classifier()
     inputs = [trainX valX testX];
     targets = [trainT valT testT];
     
-%     if (strcmp(mode, 'pattern')==1)
-%         inputs = mat2cell(inputs, size(inputs,1), ones(1, size(inputs,2)));
-%         targets = mat2cell(targets, size(targets,1), ones(1, size(targets,2)));
-%     end
-    
     numDim = size(trainX,1);
     numClasses = size(trainT,1);
     
     % Set initialization parameters
     mode = 'batch';
-%     trainingMethod = 'traingdm'; % gradient descent with momentum
-    trainingMethod = 'trainscg'; % scaled conjugate gradient
-    eta = 0.2;
-    alpha = 0.92;
-    gradtol = 0.001;
-    errtol = 0.1;
-    max_epochs = 10000; % set no of epochs to be very large
-    global BETA;
-    BETA = 1;
+    trainingMethod = 'traingdm'; % gradient descent with momentum
+%     trainingMethod = 'trainscg'; % scaled conjugate gradient
+    eta = 20;
+    alpha = 0.5;
+    gradtol = 1e-5;
+    errtol = 1e-5;
+    max_epochs = 100000; % set no of epochs to be very large
+    validation_checks = 10;
     nodesPerLayer = [numDim 10 numClasses];
     activationFcns = {'tansig', 'logsig'};
     initializationFcn = 'rands';
@@ -76,9 +70,10 @@ function mlfnn_classifier()
         case 'pattern'
             net.trainFcn = 'trainr';  % Random sequencing of inputs for pattern mode
             % termination criteria
-            net  .trainParam.epochs = max_epochs;
+            net.trainParam.epochs = max_epochs;
             net.trainParam.time = Inf; % time limit
-            net.trainParam.goal = tol;
+            net.trainParam.goal = errtol;
+            net.trainParam.min_grad = gradtol;
             
         case 'batch'
             switch (trainingMethod)
@@ -98,7 +93,7 @@ function mlfnn_classifier()
             net.trainParam.epochs = max_epochs;
             net.trainParam.time = Inf; % time limit
             net.trainParam.goal = errtol;
-            net.trainParam.max_fail = 6; % max validation failures
+            net.trainParam.max_fail = validation_checks; % max validation failures
             %(no of consecutive epochs validation error fails to decrease)
             net.trainParam.min_grad = gradtol; % norm of error gradient
             
@@ -126,7 +121,7 @@ function mlfnn_classifier()
         end
     end
     
-    % display parameters
+    % Display parameters
     net.trainParam.show = 10;
     net.trainParam.showCommandLine = 0;
     net.trainParam.showWindow = 1;
@@ -143,7 +138,11 @@ function mlfnn_classifier()
     
     
     % Train the Network
+    net = configure(net, inputs, targets);
+%     load('patmodedata');
     [net,tr] = train(net,inputs,targets);
+%     bias = net.b; inputwts = net.iw; layerwts = net.lw;
+%     save('patmodedata', 'bias', 'inputwts', 'layerwts');
     
     % Test the Network
     outputs = net(inputs);
@@ -158,6 +157,7 @@ function mlfnn_classifier()
     valPerformance = perform(net,valTargets,outputs)
     testPerformance = perform(net,testTargets,outputs)
     
+    testOut = net(trainX);
     % View the Network
     % view(net)
     
@@ -180,12 +180,12 @@ function mlfnn_classifier()
     %figure, plottrainstate(tr)
     %figure, ploterrhist(errors)
     
-    figure, set(gcf, 'WindowStyle', 'docked'), plotconfusion(targets,outputs)
-    figure, set(gcf, 'WindowStyle', 'docked'), plotroc(targets,outputs)
-    figure, set(gcf, 'WindowStyle', 'docked'), plotperform(tr)
-    figure, set(gcf, 'WindowStyle', 'docked'), plotdecisionregions(inputs, targets, outputs, gridX, gridY, gridSout)
+%     figure, set(gcf, 'WindowStyle', 'docked'), plotconfusion(testT,testOut)
+%     figure, set(gcf, 'WindowStyle', 'docked'), plotroc(targets,outputs)
+%     figure, set(gcf, 'WindowStyle', 'docked'), plotperform(tr)
+    figure, set(gcf, 'WindowStyle', 'docked'), plotdecisionregions(testX, testT, testOut, gridX, gridY, gridSout)
     figure, set(gcf, 'WindowStyle', 'docked'), plotoutputs(gridXS, gridYS, gridSoutS)
-    plothiddenlayeroutputs(net, gridXS, gridYS, 1)
+%     plothiddenlayeroutputs(net, gridXS, gridYS, 1)
    
 end
 
