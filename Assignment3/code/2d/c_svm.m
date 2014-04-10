@@ -12,8 +12,8 @@
 function []= c_svm(dataset,kernel,cost,a,b,d)
      if(nargin<6)
         dataset = 'linearlySeparable';
-        kernel =  'polynomial';
-        cost = 1; a = 4; b = 3; d = 2; 
+        kernel =  'linear';
+        cost = 0; a = 4; b = 3; d = 2; 
      end
     path = fullfile(pwd,'..','..','data',dataset,'data');
     
@@ -134,7 +134,7 @@ function  visualize(dataset,svm_model,cost)
      gscatter(D(ubv_indices,1), D(ubv_indices,2), group(ubv_indices), clrDark, '.', 5);
      gscatter(D(bv_indices,1), D(bv_indices,2), group(bv_indices), clrDark, '+', 5);
      
-%      gscatter(D(:,1), D(:,2), group, clrDark, 'o', 5);
+%       gscatter(D(:,1), D(:,2), group, clrDark, 'o', 5);
      
     
     %Superimposing wrongly classified points

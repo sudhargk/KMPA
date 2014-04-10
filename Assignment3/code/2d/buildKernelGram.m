@@ -7,7 +7,7 @@
 function[G]= buildKernelGram(X1,X2,kernel,a,b,d)
     handle = str2func(kernel);
     [G] = handle(X1,X2,a,b,d);
-%     colormap gray;
+    colormap gray;
     imagesc(G);
 end
 
