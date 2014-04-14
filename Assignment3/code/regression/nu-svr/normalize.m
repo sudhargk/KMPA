@@ -1,4 +1,3 @@
-
 function [trainX,testX,valX] = normalize(trainX,testX,valX)
     T =[trainX;testX;valX];
     MIN = min(T);

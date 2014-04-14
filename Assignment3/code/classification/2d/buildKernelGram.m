@@ -1,11 +1,12 @@
 %%
 %   Builds the Kernel Gram Matrix for different kernels
 %   @kernel = 'linear', 'polynomial', 'gaussian'
+%   @flag = compute error if true else not
 %   @a,@b,@d = for polynomial (a*x'.y +b)^d  
 %   @a = for gaussian  exp(-a*|x-v|^2);
 
 function[G,error]= buildKernelGram(X1,X2,kernel,a,b,d)
-   numClass = size(X1,1);
+    numClass = size(X1,1);
     numX1Sample = cellfun('size',X1,1);
     X1Samples = sum(numX1Sample);
     
@@ -28,8 +29,8 @@ function[G,error]= buildKernelGram(X1,X2,kernel,a,b,d)
         prev1 = ssize1+1; prev2 = ssize2+1;
     end
     error = norm(ideal-G,'fro');
-    colormap gray;
-    imagesc(G);
+%     colormap gray;
+%     imagesc(G);
     G = [(1:X1Samples)' G];
 end
 
@@ -38,10 +39,21 @@ function [G] = linear(X1,X2,a,b,d)
 end
 function [G] = polynomial(X1,X2,a,b,d)
     G = (a*X1*X2'+ b).^d;
+    tX1 = sqrt((a*sum(X1.*X1,2)+ b).^d);
+    tX2 = sqrt((a*sum(X2.*X2,2)+ b).^d);
+    G = bsxfun(@rdivide,G,tX1);
+    G = bsxfun(@rdivide,G,tX2');
 end
 
 function [G] = gaussian(X1,X2,a,b,d)
     G = pdist2(X1,X2);
     G = exp(-a*G.^2);
 end
+function [G] = histogram(X1,X2,a,b,d)
+    G = pdist2(X1,X2,@histointersection);
+end
 
+function [dist] = histointersection(X,Y)
+        dist = bsxfun(@min,Y,X);
+        dist=sum(dist,2);
+end

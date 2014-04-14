@@ -1,9 +1,5 @@
-function [C]= testData(dataset,svm_model)
-    numClass = size(dataset,1);
-    numSample = cellfun(@length,dataset);
-    totalSample = sum(numSample);
-    actualClass = getActualClass(numSample);
-    dataset = cell2mat(dataset);
+function [C]= testData(dataset,svm_model,actualClass,numClass)
+    totalSample = size(dataset,1);
     [decidedClass]= classify(dataset,svm_model,numClass);
     targets=full(ind2vec(actualClass));
     outputs = full(ind2vec(decidedClass));

@@ -55,8 +55,6 @@ function []=saveImageData()
     save(fullfile(pwd, '..', 'data', dataset, 'data'), 'trainset', 'testset','valset','numClass', 'classes');
 end
 
-    
-
 function [dataset] = loadData(dataset,type)
     
     path = fullfile(pwd,'..', 'data', dataset);

@@ -1,48 +1,69 @@
+%%  
+%Implementation of bayes classifier using gaussian distribution
+% @dataset = 'overlapping','linearlySeparable','nonlinearlySeparable'
+% @kernel = 'linear', 'polynomial', 'gaussian'
+% @cost = C-SVM Cost
+% @a,@b,@d = for polynomial (a*x'.y +b)^d  
+% @a = for gaussian  exp(-a*|x-v|^2);
+% @numCluster  = 1 x C  number of cluster per class
+%
 function [] = testingParameters()
      if(nargin<6)
         dataset = 'image';
         kernel =  'gaussian';
-        cost = 1; avar = 16:16:160; b = 3; d = 2; 
+        cost= 0.1:0.2:5; var = 50:150; b = 0.6; d = 3; 
      end
     path = fullfile(pwd,'..','..','..','data',dataset,'data');
     load(path);    
-    valAccuracy = zeros(length(avar),1);
-    kGramError = zeros(length(avar),1);
-    index = 1;
-    for variable = avar
-        a = variable;
-        [svmoptions,is_custom_kernel] = buildSVMOptions(cost,kernel,a,b,d);
-        [~,kGramError(index)]=buildKernelGram(trainset,trainset,kernel,a,b,d);
-        [numClass,ntrainset,trainActualClass,nvalset,valActualClass] = initData(trainset,valset,kernel,a,b,d,is_custom_kernel);
-        [svm_model] = train(ntrainset,svmoptions,trainActualClass);
-        [confusion]=testData(nvalset,svm_model,valActualClass,numClass);       
-        [~,valAccuracy(index)]=computeMetrics(confusion,numClass);
-        index = index+1;
+% %     [trainset,testset,valset]=normalize(trainset,testset,valset);
+
+    kGramError = zeros(length(var),1);
+    for rindex =1:length(var);
+%         [svmoptions,~] = buildSVMOptions(cost,kernel,a,b,var(rindex));
+%         [~,kGramError(rindex)]=buildKernelGram(trainset,trainset,kernel,a,b,var(rindex));
+%          [svmoptions,~] = buildSVMOptions(cost,kernel,a,var(rindex),d);
+%         [~,kGramError(rindex)]=buildKernelGram(trainset,trainset,kernel,a,var(rindex),d);
+            [svmoptions,~] = buildSVMOptions(cost,kernel,var(rindex),b,d);
+        [~,kGramError(rindex)]=buildKernelGram(trainset,trainset,kernel,var(rindex),b,d);
+
     end
-    figure(1);
-    plot(avar,valAccuracy,'b');
-    title('Testing parameters');
-    xlabel('');ylabel('Validation Accuracy');
-    figure(2);
-    plot(avar,kGramError,'r');
-    title('Testing parameters');
-    xlabel('');ylabel('Kernel Gram Error');  
+   figure(1);
+   plot(var,kGramError,'r');
+   title('Testing parameters Kernel Gram Error');
+   xlabel('Gaussian Inverse Width');ylabel('Kernel gram error');  
+%    
+%     valAccuracy = zeros(length(costvar),1);    
+%    for cindex = 1:length(costvar)
+%         cost = costvar(cindex);
+%         [svmoptions,is_custom_kernel] = buildSVMOptions(cost,kernel,a,b,d);
+%         [numClass,ntrainset,trainActualClass,ntestset,testActualClass] = initData(trainset,testset,kernel,a,b,d,is_custom_kernel);
+%         [svm_model] = train(ntrainset,svmoptions,trainActualClass);
+%         [confusion]=testData(ntestset,svm_model,testActualClass,numClass,classes);       
+%         [~,valAccuracy(cindex)]=computeMetrics(confusion,numClass);
+%     end
+%     figure(2);
+%     plot(costvar,valAccuracy,'r');
+%     title('Testing parameters Validation Accuracy');
+%     ylabel('Accuracy'); xlabel('Cost C');
+   
+   
 end
 
 
 function [svmoptions,is_custom_kernel] = buildSVMOptions(cost,kernel,gamma,coef,degree)
     soptions ='-s 0';
-%     soptions ='-s 1';
     koptions = '-t';
     is_custom_kernel = false;
     switch(kernel)
         case 'linear'  
             koptions = [koptions ' 0'];
         case 'polynomial'
-            koptions = [koptions ' 1'];
-            koptions = [koptions ' -g ' num2str(gamma)];
-            koptions = [koptions ' -r ' num2str(coef)];
-            koptions = [koptions ' -d ' num2str(degree)];
+%             koptions = [koptions ' 1'];
+%             koptions = [koptions ' -g ' num2str(gamma)];
+%             koptions = [koptions ' -r ' num2str(coef)];
+%             koptions = [koptions ' -d ' num2str(degree)];
+            koptions = [koptions ' 4'];
+            is_custom_kernel = true;
         case 'gaussian'
             koptions = [koptions ' 2'];
             koptions = [koptions ' -g ' num2str(gamma)];
@@ -51,7 +72,5 @@ function [svmoptions,is_custom_kernel] = buildSVMOptions(cost,kernel,gamma,coef,
              is_custom_kernel = true;
     end
     coptions = ['-c ' num2str(cost)];
-%     noptions = ['-n 1'];
-    boptions = '-b 1';
-    svmoptions = [soptions ' ' koptions ' ' coptions,' ',boptions];
+    svmoptions = [soptions ' ' koptions ' ' coptions];
 end

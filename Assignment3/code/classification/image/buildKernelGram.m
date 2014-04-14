@@ -30,7 +30,7 @@ function[G,error]= buildKernelGram(X1,X2,kernel,a,b,d)
     end
     error = norm(ideal-G,'fro');
     colormap gray;
-%     imagesc(G);
+    imagesc(G);
     G = [(1:X1Samples)' G];
 end
 

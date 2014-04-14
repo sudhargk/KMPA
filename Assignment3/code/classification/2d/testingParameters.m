@@ -9,62 +9,65 @@
 %
 function [] = testingParameters()
      if(nargin<6)
-        dataset = 'linearlySeparable';
+        dataset = 'nonlinearlySeparable';
         kernel =  'gaussian';
-        costvar = 2.^([-5 5]); avar = 2.^([-5:5]); b = 3; d = 2; 
+        costvar=1; a = 0.6; b = 0.6; d = 3; 
      end
     path = fullfile(pwd,'..','..','..','data',dataset,'data');
     load(path);    
-%     [trainset,testset,valset]=normalize(trainset,testset,valset);
-    valAccuracy = zeros(length(avar),length(costvar));
-    kGramError = zeros(length(avar),1);
-   cindex = 1;
-    for cost = costvar
-         rindex =1;
-        for a = avar
-            [svmoptions,~] = buildSVMOptions(cost,kernel,a,b,d);
-            [~,kGramError(rindex,cindex)]=buildKernelGram(trainset,trainset,kernel,a,b,d);
-             
-            [svm_model] = train(trainset,svmoptions);
-            [confusion]=testData(valset,svm_model);       
-            [~,valAccuracy(rindex,cindex)]=computeMetrics(confusion,numClass);
-            rindex=rindex+1;
-        end
-        cindex = cindex+1;
+% %     [trainset,testset,valset]=normalize(trainset,testset,valset);
+
+%     kGramError = zeros(length(var),1);
+%     for rindex =1:length(var);
+% %         [svmoptions,~] = buildSVMOptions(cost,kernel,a,b,var(rindex));
+% %         [~,kGramError(rindex)]=buildKernelGram(trainset,trainset,kernel,a,b,var(rindex));
+% %          [svmoptions,~] = buildSVMOptions(cost,kernel,a,var(rindex),d);
+% %         [~,kGramError(rindex)]=buildKernelGram(trainset,trainset,kernel,a,var(rindex),d);
+%             [svmoptions,~] = buildSVMOptions(cost,kernel,var(rindex),b,d);
+%         [~,kGramError(rindex)]=buildKernelGram(trainset,trainset,kernel,var(rindex),b,d);
+% 
+%     end
+%    figure(1);
+%    plot(var,kGramError,'r');
+%    title('Testing parameters Kernel Gram Error');
+%    xlabel('Gaussian Inverse Width');ylabel('Kernel gram error');  
+   
+    valAccuracy = zeros(length(costvar),1);    
+   for cindex = 1:length(costvar)
+        cost = costvar(cindex);
+        [svmoptions,is_custom_kernel] = buildSVMOptions(cost,kernel,a,b,d);
+        [numClass,ntrainset,trainActualClass,ntestset,testActualClass] = initData(trainset,testset,kernel,a,b,d,is_custom_kernel);
+        [svm_model] = train(ntrainset,svmoptions,trainActualClass);
+        [confusion]=testData(ntestset,svm_model,testActualClass,numClass);       
+        [~,valAccuracy(cindex)]=computeMetrics(confusion,numClass);
     end
-    figure(1);
-    imagesc(mat2gray(valAccuracy));
-    title('Testing parameters Validation Accuracy');
-    xlabel('Cost C');ylabel('Gaussian inverse width');
     figure(2);
-    imagesc(mat2gray(kGramError));
-    title('Testing parameters Kernel Gram Error');
-    xlabel('Cost C');ylabel('Gaussian inverse width');  
+    plot(costvar,valAccuracy,'r');
+    title('Testing parameters Validation Accuracy');
+    ylabel('Accuracy'); xlabel('Cost C');
+   
+   
 end
 
 
 function [svmoptions,is_custom_kernel] = buildSVMOptions(cost,kernel,gamma,coef,degree)
     soptions ='-s 0';
-%     soptions ='-s 1';
     koptions = '-t';
     is_custom_kernel = false;
     switch(kernel)
         case 'linear'  
             koptions = [koptions ' 0'];
         case 'polynomial'
-            koptions = [koptions ' 1'];
-            koptions = [koptions ' -g ' num2str(gamma)];
-            koptions = [koptions ' -r ' num2str(coef)];
-            koptions = [koptions ' -d ' num2str(degree)];
+%             koptions = [koptions ' 1'];
+%             koptions = [koptions ' -g ' num2str(gamma)];
+%             koptions = [koptions ' -r ' num2str(coef)];
+%             koptions = [koptions ' -d ' num2str(degree)];
+            koptions = [koptions ' 4'];
+            is_custom_kernel = true;
         case 'gaussian'
             koptions = [koptions ' 2'];
             koptions = [koptions ' -g ' num2str(gamma)];
-        case 'histogram'
-             koptions = [koptions ' 4'];
-             is_custom_kernel = true;
     end
     coptions = ['-c ' num2str(cost)];
-%     noptions = ['-n 1'];
-    boptions = '-b 1';
-    svmoptions = [soptions ' ' koptions ' ' coptions,' ',boptions];
+    svmoptions = [soptions ' ' koptions ' ' coptions];
 end

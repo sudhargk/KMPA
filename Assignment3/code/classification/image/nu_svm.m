@@ -10,20 +10,20 @@
 % @a = for gaussian  exp(-a*|x-v|^2);
 % @numCluster  = 1 x C  number of cluster per class
 %
-function []= nu_svm(dataset,kernel,nu,cost,a,b,d)
+function []= nu_svm(dataset,kernel,nu,a,b,d)
      if(nargin<6)
         dataset = 'image';
-        kernel =  'gaussiam';
-        nu=0.2; cost = 1; a = 50; b = 3; d = 2; 
+        kernel =  'gaussian';
+        nu=0.27;  a = 98; b = 3; d = 2; 
      end
     path = fullfile(pwd,'..','..','..','data',dataset,'data');
     
     load(path);    
    
-    [svmoptions,is_custom_kernel] = buildSVMOptions(cost,nu,kernel,a,b,d);
+    [svmoptions,is_custom_kernel] = buildSVMOptions(nu,kernel,a,b,d);
     [numClass,trainset,trainActualClass,testset,testActualClass] = initData(trainset,testset,kernel,a,b,d,is_custom_kernel);
     [svm_model] = train(trainset,svmoptions,trainActualClass);
-    [confusion]=testData(testset,svm_model,testActualClass,numClass);       
+    [confusion]=testData(testset,svm_model,testActualClass,numClass,classes);       
     
     [perClassInfo,overallAcc]=computeMetrics(confusion,numClass);
      format shortg;
@@ -31,7 +31,7 @@ function []= nu_svm(dataset,kernel,nu,cost,a,b,d)
      display(overallAcc);
       
 end
-function [svmoptions,is_custom_kernel] = buildSVMOptions(cost,nu,kernel,gamma,coef,degree)
+function [svmoptions,is_custom_kernel] = buildSVMOptions(nu,kernel,gamma,coef,degree)
     soptions ='-s 1';
     koptions = '-t';
     is_custom_kernel = false;
@@ -50,10 +50,8 @@ function [svmoptions,is_custom_kernel] = buildSVMOptions(cost,nu,kernel,gamma,co
              koptions = [koptions ' 4'];
              is_custom_kernel = true;
     end
-    coptions = ['-c ' num2str(cost)];
     nuoptions = ['-n ' num2str(nu)];
-    boptions = '-b 1';
-    svmoptions = [soptions ' ' nuoptions ' ' koptions ' ' coptions,' ',boptions];
+    svmoptions = [soptions ' ' nuoptions ' ' koptions ];
 end
 
 
