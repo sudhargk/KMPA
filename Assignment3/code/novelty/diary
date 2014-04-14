@@ -1,0 +1,88 @@
+c_svdd_multivariate
+*
+optimization finished, #iter = 127
+R^2 = 0.942592
+obj = -0.471228, rho = -0.442524
+nSV = 99, nBSV = 0
+------------------------------------------------------
+On train data:-
+Accuracy = 99.1909% (343018/345816) (classification)
+
+confusion =
+
+       68004          91
+        2707      275014
+
+Accuracy = 99.190899 (343018 / 345816) 
+True positive rate = 99.866363 (68004 / 68095)
+False alarm rate = 0.974719 (2707 / 277721)
+------------------------------------------------------
+On validation data:-
+Accuracy = 99.1755% (146983/148205) (classification)
+
+confusion =
+
+       29128          55
+        1167      117855
+
+Accuracy = 99.175466 (146983 / 148205) 
+True positive rate = 99.811534 (29128 / 29183)
+False alarm rate = 0.980491 (1167 / 119022)
+------------------------------------------------------
+On test data:-
+Accuracy = 81.7753% (254345/311029) (classification)
+
+confusion =
+
+       59553        1040
+       55644      194792
+
+Accuracy = 81.775333 (254345 / 311029) 
+True positive rate = 98.283630 (59553 / 60593)
+False alarm rate = 22.218850 (55644 / 250436)
+
+nu_svdd_multivariate
+*
+optimization finished, #iter = 344
+obj = 1177.997210, rho = 13.577649
+nSV = 223, nBSV = 154
+------------------------------------------------------
+On train data:-
+Accuracy = 99.2432% (343199/345816) (classification)
+
+confusion =
+
+       67894         201
+        2416      275305
+
+Accuracy = 99.243239 (343199 / 345816) 
+True positive rate = 99.704824 (67894 / 68095)
+False alarm rate = 0.869938 (2416 / 277721)
+------------------------------------------------------
+On validation data:-
+Accuracy = 99.245% (147086/148205) (classification)
+
+confusion =
+
+       29084          99
+        1020      118002
+
+Accuracy = 99.244965 (147086 / 148205) 
+True positive rate = 99.660761 (29084 / 29183)
+False alarm rate = 0.856984 (1020 / 119022)
+------------------------------------------------------
+On test data:-
+Accuracy = 92.3637% (287278/311029) (classification)
+
+confusion =
+
+       59461        1132
+       22619      227817
+
+Accuracy = 92.363735 (287278 / 311029) 
+True positive rate = 98.131797 (59461 / 60593)
+False alarm rate = 9.031848 (22619 / 250436)
+
+===================================NEW===========================
+
+
