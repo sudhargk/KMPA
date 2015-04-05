@@ -65,4 +65,8 @@ function [dataset] = loadData(dataset,type)
         dataset{index}=importdata(fullfile(path, file.name));
         index=index+1;
     end
+<<<<<<< HEAD
 end
+=======
+end
+>>>>>>> 1a389ff681b826be7e7528f6b64a5811083343d4

@@ -13,4 +13,8 @@ function [trainset,testset,valset] = normalize(trainset,testset,valset)
         val = bsxfun(@rdivide,val,MAX-MIN);
         trainset{index}=train; valset{index}=val;testset{index}=test;
     end
+<<<<<<< HEAD
 end
+=======
+end
+>>>>>>> 1a389ff681b826be7e7528f6b64a5811083343d4

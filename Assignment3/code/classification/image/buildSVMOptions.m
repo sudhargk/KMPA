@@ -44,4 +44,8 @@ function [svmoptions,is_custom_kernel] = buildSVMOptions(cost,kernel,gamma,coef,
     coptions = ['-c ' num2str(cost)];
     boptions = '-b 1';
     svmoptions = [soptions ' ' koptions ' ' coptions,' ',boptions];
+<<<<<<< HEAD
 end
+=======
+end
+>>>>>>> 1a389ff681b826be7e7528f6b64a5811083343d4

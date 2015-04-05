@@ -4,4 +4,8 @@ function [decidedClass]= classify(dataset,svm_model,numClass)
     testingLabels = testingLabels';
     [decidedClass] = ovrpredict(testingLabels,dataset,svm_model); 
     decidedClass = decidedClass';
+<<<<<<< HEAD
 end
+=======
+end
+>>>>>>> 1a389ff681b826be7e7528f6b64a5811083343d4

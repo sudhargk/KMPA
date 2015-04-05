@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1a389ff681b826be7e7528f6b64a5811083343d4
 function [trainX,testX,valX] = normalize(trainX,testX,valX)
     T =[trainX;testX;valX];
     MIN = min(T);
@@ -8,4 +12,8 @@ function [trainX,testX,valX] = normalize(trainX,testX,valX)
     testX = bsxfun(@rdivide,testX,MAX-MIN);
     valX = bsxfun(@minus,valX,MIN);
     valX = bsxfun(@rdivide,valX,MAX-MIN);
+<<<<<<< HEAD
 end
+=======
+end
+>>>>>>> 1a389ff681b826be7e7528f6b64a5811083343d4

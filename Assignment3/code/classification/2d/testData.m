@@ -9,4 +9,8 @@ function [C]= testData(dataset,svm_model,actualClass,numClass)
     for i = 1:totalSample
         C(actualClass(i),decidedClass(i)) = C(actualClass(i),decidedClass(i)) + 1;
     end
+<<<<<<< HEAD
 end
+=======
+end
+>>>>>>> 1a389ff681b826be7e7528f6b64a5811083343d4

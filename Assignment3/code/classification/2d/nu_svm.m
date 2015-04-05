@@ -51,4 +51,8 @@ function [svmoptions,is_custom_kernel] = buildSVMOptions(nu,kernel,gamma,coef,de
     nuoptions = ['-n ' num2str(nu)];
     boptions = '-b 1';
     svmoptions = [soptions ' ' nuoptions ' ' koptions ,' ',boptions];
+<<<<<<< HEAD
 end
+=======
+end
+>>>>>>> 1a389ff681b826be7e7528f6b64a5811083343d4
